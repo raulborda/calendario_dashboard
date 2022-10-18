@@ -144,16 +144,6 @@ const Calendario = () => {
                       onClick={() => setMostrar(!mostrar)}
                     >
                       <div className="tarea-negocio-linea-superior">
-                        {/* <Ellipsis
-                              className="tarea-negocio-titulo"
-                              style={{
-                                fontWeight: "bold",
-                                width: "90%",
-                                fontSize: "16px",
-                              }}
-                              direction="end"
-                              content={tarea.tar_asunto}
-                            /> */}
                         <p
                           style={{
                             fontWeight: "bold",
