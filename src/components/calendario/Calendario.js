@@ -8,11 +8,11 @@ import { GlobalContext } from "../../context/GlobalContext";
 import { Calendar } from "antd";
 import "./Calendario.css";
 import {
-    DownOutlined,
-    ClockCircleOutlined,
-    UserOutlined,
-    InfoCircleOutlined    
-  } from "@ant-design/icons";
+  DownOutlined,
+  ClockCircleOutlined,
+  UserOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 
 const Calendario = () => {
   const { userId } = useContext(GlobalContext);
@@ -27,6 +27,7 @@ const Calendario = () => {
   const [pollTareas, setPollTareas] = useState();
   const [tareas, setTareas] = useState();
   const [mostrar, setMostrar] = useState(false);
+  const [tasksDates, setTasksDates] = useState([]);
 
   const { data, loading, error, startPolling, stopPolling } = useQuery(
     GET_TAREAS_CALENDARIO,
@@ -39,9 +40,9 @@ const Calendario = () => {
 
   console.log(data);
 
-   //*Handles para separar las fechasHoras en fecha y hora como viene de base de datos con moment.js
+  //*Handles para separar las fechasHoras en fecha y hora como viene de base de datos con moment.js
 
-   const handleFechaVer = (val) => {
+  const handleFechaVer = (val) => {
     let fecha = moment(val, "DD/MM/YYYY").format("DD/MM/YYYY");
     return fecha;
   };
@@ -128,6 +129,8 @@ const Calendario = () => {
         <div className="titulo">Calendario</div>
         <div className="calendar">
           <Calendar
+            defaultValue={filtroFecha}
+            
             fullscreen={false}
             onSelect={onSelect}
             onPanelChange={onPanelChange}
@@ -159,7 +162,9 @@ const Calendario = () => {
                       <div className="tarea-negocio-linea-intermedia">
                         {tarea.cli_nombre ? (
                           <div className="tarea-negocio-item">
-                            <UserOutlined style={{ color: "#00B33C", marginTop:"-5px" }} />
+                            <UserOutlined
+                              style={{ color: "#00B33C", marginTop: "-5px" }}
+                            />
                             <p className="tarea-negocio-contacto">
                               {tarea.cli_nombre}
                             </p>
@@ -170,7 +175,7 @@ const Calendario = () => {
                         {tarea.tip_desc ? (
                           <div className="tarea-negocio-item">
                             <InfoCircleOutlined
-                              style={{ color: "#00B33C", marginTop:"-2px" }}
+                              style={{ color: "#00B33C", marginTop: "-2px" }}
                             />
                             <p className="tarea-negocio-tipoTarea">
                               {tarea.tip_desc}
@@ -274,7 +279,7 @@ const Calendario = () => {
                                 borderRadius: "4px",
                                 marginLeft: "-2px",
                                 marginRight: "3px",
-                                marginTop:"11px"
+                                marginTop: "11px",
                               }}
                             >
                               {tarea.ori_desc}
