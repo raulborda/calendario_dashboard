@@ -5,7 +5,7 @@ import { GET_TAREAS_CALENDARIO } from "../../graphql/query/tareas";
 import QueryResult from "../../queryResult/QueryResult";
 import { useQuery } from "@apollo/client";
 import { GlobalContext } from "../../context/GlobalContext";
-import { Calendar } from "antd";
+import { Badge, Calendar } from "antd";
 import "./Calendario.css";
 import {
   DownOutlined,
@@ -27,7 +27,11 @@ const Calendario = () => {
   const [pollTareas, setPollTareas] = useState();
   const [tareas, setTareas] = useState();
   const [mostrar, setMostrar] = useState(false);
+  const [ownTasks, setOwnTasks] = useState([]);
   const [tasksDates, setTasksDates] = useState([]);
+  const [filterDate, setFilterDate] = useState(moment().format("YYYY-MM-DD"));
+  const [horasParaIterar, setHorasParaIterar] = useState([]);
+  const [clientesParaIterar, setClientesParaIterar] = useState([]);
 
   const { data, loading, error, startPolling, stopPolling } = useQuery(
     GET_TAREAS_CALENDARIO,
@@ -39,6 +43,49 @@ const Calendario = () => {
   );
 
   console.log(data);
+
+  const getListData = (value) => {
+    let listData = [];
+
+    const existeTarea = tasksDates.filter((item) => {
+      return item.tar_vencimiento === moment(value).format("YYYY-MM-DD");
+    });
+
+    if (existeTarea.length > 0) {
+      listData = [
+        {
+          type: "1",
+        },
+      ];
+    } else {
+      listData = [
+        {
+          type: "0",
+        },
+      ];
+    }
+
+    return listData;
+  };
+
+  const dateCellRender = (value) => {
+    const listData = getListData(value);
+
+    return (
+      <span>
+        {listData.map((item, idx) => {
+          return (
+            <Badge
+              key={idx}
+              size="small"
+              dot={true}
+              color={item.type === "1" ? "green" : "white"}
+            />
+          );
+        })}
+      </span>
+    );
+  };
 
   //*Handles para separar las fechasHoras en fecha y hora como viene de base de datos con moment.js
 
@@ -76,6 +123,8 @@ const Calendario = () => {
   useEffect(() => {
     setPollTareas({ inicial: startPolling, stop: stopPolling });
     if (data) {
+      const tareas = JSON.parse(data.getTareasPropiasMobileResolver);
+
       if (JSON.parse(data.getTareasPropiasMobileResolver)) {
         ordenarDatos(
           JSON.parse(data.getTareasPropiasMobileResolver).tareasPropiasPorFecha,
@@ -84,6 +133,7 @@ const Calendario = () => {
         setTareasCalendario(
           JSON.parse(data.getTareasPropiasMobileResolver).fechasVenc
         );
+        setTasksDates(tareas.fechasVenc);
       }
     }
   }, [data, filtroFecha]);
@@ -129,11 +179,11 @@ const Calendario = () => {
         <div className="titulo">Calendario</div>
         <div className="calendar">
           <Calendar
-            defaultValue={filtroFecha}
-            
+            dateCellRender={dateCellRender}
             fullscreen={false}
             onSelect={onSelect}
             onPanelChange={onPanelChange}
+            // onChange={(v) => setFilterDate(moment(v).format("YYYY-MM-DD"))}
           />
         </div>
         <div className="lista_tareas">
