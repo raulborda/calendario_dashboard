@@ -73,7 +73,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  margin: 5px 0px 0px 0px;
+  margin: -15px 0px 0px 0px;
 }
 
 .tarea-negocio-linea-inferior {
@@ -81,7 +81,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  margin: 0px 0px 5px 0px;
+  margin: -15px 0px 5px 0px;
   justify-content: space-between;
 }
 
