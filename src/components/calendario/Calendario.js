@@ -169,7 +169,7 @@ const Calendario = () => {
                       <div className="tarea-negocio-linea-intermedia">
                         {tarea.cli_nombre ? (
                           <div className="tarea-negocio-item">
-                            <UserOutlined style={{ color: "#00B33C" }} />
+                            <UserOutlined style={{ color: "#00B33C", marginTop:"-5px" }} />
                             <p className="tarea-negocio-contacto">
                               {tarea.cli_nombre}
                             </p>
@@ -180,7 +180,7 @@ const Calendario = () => {
                         {tarea.tip_desc ? (
                           <div className="tarea-negocio-item">
                             <InfoCircleOutlined
-                              style={{ color: "#00B33C" }}
+                              style={{ color: "#00B33C", marginTop:"-2px" }}
                             />
                             <p className="tarea-negocio-tipoTarea">
                               {tarea.tip_desc}
@@ -284,6 +284,7 @@ const Calendario = () => {
                                 borderRadius: "4px",
                                 marginLeft: "-2px",
                                 marginRight: "3px",
+                                marginTop:"11px"
                               }}
                             >
                               {tarea.ori_desc}
