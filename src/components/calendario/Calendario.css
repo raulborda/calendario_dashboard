@@ -14,7 +14,6 @@
   background-color: #cccccc;
 }
 
-
 .div_wrapper {
   border-top: solid 1px #e8e8e8;
   border-left: solid 1px #e8e8e8;
@@ -200,4 +199,47 @@
   padding: 4px 5px;
   margin: 5px 0px;
   text-align: center;
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  color: #00b33c !important;
+  border-color: #00b33c !important;
+  box-shadow: none;
+}
+
+html {
+  --antd-wave-shadow-color: #00b33c !important;
+}
+
+::selection {
+  color: #fff;
+  background: #00b33c !important;
+  box-shadow: none;
+  border-color: #00b33c !important;
+}
+
+.ant-radio-button-wrapper:hover {
+  color: #00b33c !important;
+  border-color: #00b33c !important;
+  box-shadow: none;
+}
+
+.ant-radio-button-wrapper:focus {
+  color: #00b33c !important;
+  border-color: #00b33c !important;
+  box-shadow: none;
+}
+
+.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
+.ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+.ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+  color: #00b33c !important;
+  border-color: #00b33c !important;
+  background-color: #fff;
+}
+
+
+.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+  /* border-color: #00b33c !important; */
+  border: none;
 }

@@ -3,3 +3,8 @@
     display: flex;
     margin-top: 80px;
 }
+
+
+.ant-spin-dot-item{
+    background-color: #00b33c !important;
+}
