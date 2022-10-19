@@ -14,7 +14,7 @@
   background-color: #cccccc;
 }
 
-body{
+body {
   overflow-y: hidden;
   overflow-x: hidden;
 }
@@ -24,13 +24,13 @@ body{
   border-left: solid 1px #e8e8e8;
   border-right: solid 1px #e8e8e8;
   border-bottom: solid 1px #e8e8e8; */
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 10px;
   width: auto;
   height: auto;
-  
 }
 
 /*color: #f9f9f9*/
@@ -53,6 +53,7 @@ body{
   margin-bottom: 0px;
   width: 103%;
   margin-left: -10px;
+  margin-top: 3px;
 }
 
 .calendar {
@@ -62,7 +63,6 @@ body{
   justify-content: center;
   align-items: center;
   border-bottom: solid 1px #f4f4f4;
-
 }
 
 .lista_tareas {
@@ -70,7 +70,6 @@ body{
   width: 104%;
   margin-left: -6px;
   overflow-y: scroll;
-
 }
 .div_lista_calendario {
   margin-top: 8px;
@@ -254,7 +253,6 @@ html {
   border-color: #00b33c !important;
   background-color: #fff;
 }
-
 
 .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
   /* border-color: #00b33c !important; */
