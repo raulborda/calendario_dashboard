@@ -53,7 +53,7 @@
 }
 
 .lista_tareas {
-  height: 200px;
+  height: 300px;
   overflow-y: scroll;
 }
 .div_lista_calendario {

@@ -27,11 +27,8 @@ const Calendario = () => {
   const [pollTareas, setPollTareas] = useState();
   const [tareas, setTareas] = useState();
   const [mostrar, setMostrar] = useState(false);
-  const [ownTasks, setOwnTasks] = useState([]);
+
   const [tasksDates, setTasksDates] = useState([]);
-  const [filterDate, setFilterDate] = useState(moment().format("YYYY-MM-DD"));
-  const [horasParaIterar, setHorasParaIterar] = useState([]);
-  const [clientesParaIterar, setClientesParaIterar] = useState([]);
 
   const { data, loading, error, startPolling, stopPolling } = useQuery(
     GET_TAREAS_CALENDARIO,
@@ -163,12 +160,13 @@ const Calendario = () => {
     }
   };
 
-  const onSelect = (newValue) => {
-    setValue(newValue.format("DD/MM/YYYY"));
-    setSelectedValue(newValue.format("DD/MM/YYYY"));
+  const onSelect = (value) => {
+    setValue(value.format("DD/MM/YYYY"));
+    setSelectedValue(value.format("DD/MM/YYYY"));
+    setFiltroFecha(value.format("YYYY-MM-DD"));
   };
-  const onPanelChange = (newValue) => {
-    setValue(newValue.format("DD/MM/YYYY"));
+  const onPanelChange = (value) => {
+    setValue(value.format("DD/MM/YYYY"));
   };
 
   console.log(selectedValue);
