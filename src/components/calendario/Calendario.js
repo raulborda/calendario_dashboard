@@ -13,6 +13,7 @@ import {
   UserOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
+import NotaTarea from "../notaTarea/NotaTarea";
 
 const Calendario = () => {
   const { userId } = useContext(GlobalContext);
@@ -345,18 +346,16 @@ const Calendario = () => {
                         </div>
                       </div>
                     </div>
-                    {/* {tarea.not_id && tarea.not_desc !== "<p><br></p>" ? (
-                      <NotaTareaNegocio
+                    {tarea.not_id && tarea.not_desc !== "<p><br></p>" ? (
+                      <NotaTarea
                         nota={tarea}
-                        origen={origen}
                         interno={true}
                         display={mostrar}
                       />
                     ) : null}
-                    {tarea.up_id && (
+                    {/* {tarea.up_id && (
                       <ArchivoTareaNegocio
                         archivo={tarea}
-                        origen={origen}
                         interno={true}
                         display={mostrar}
                       />

@@ -1,0 +1,66 @@
+@import "antd/dist/antd.css";
+
+.nota-tarea-wrapper {
+    width: calc(100% - 7px);
+    background-color: #fffcdc;
+    padding: 5px 0px 10px 0px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 2px;
+    border: 1px solid rgba(153, 153, 153, 0.2);
+    border-radius: 2px;
+    box-sizing: border-box;
+  }
+  
+  .nota-tarea-wrapper-interno {
+    width: calc(100% - 8px);
+    background-color: #fffcdc;
+    padding: 5px 0px 10px 0px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+    border: 1px solid rgba(153, 153, 153, 0.2);
+    border-radius: 2px;
+    box-sizing: border-box;
+  }
+  
+  .nota-tarea-wrapper-lista-negocio {
+    width: calc(100% - 13px);
+    background-color: #fffcdc;
+    padding: 5px 0px 10px 0px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+    border: 1px solid rgba(153, 153, 153, 0.2);
+    border-radius: 2px;
+    box-sizing: border-box;
+  }
+  
+  .nota-tarea-fecha {
+      font-weight: bold;
+      color: #c8c8c8;
+      margin: 0px 5px;
+  }
+  
+  .nota-tarea-texto {
+      color: black;
+      font-size: 1rem;
+      margin: 8px 5px;
+  }
+  
+  .nota-tarea-prioridad {
+    padding: 5px 8px;
+    margin: 0px 5px;
+    color: white;
+    font-weight: bold;
+    border-radius: 4px;
+  }
+  
+  .nota-tarea-linea-superior {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  

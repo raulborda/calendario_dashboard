@@ -1,0 +1,76 @@
+@import "antd/dist/antd.css";
+
+.archivo-tarea-wrapper {
+    width: calc(100% - 7px);
+    background-color: white;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    margin-left: 2px;
+    border: 1px solid rgba(153, 153, 153, 0.2);
+    border-radius: 2px;
+    box-sizing: border-box;
+  }
+  
+  .archivo-tarea-wrapper-interno {
+    width: calc(100% - 8px);
+    background-color: white;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    margin-left: 15px;
+    border: 1px solid rgba(153, 153, 153, 0.2);
+    border-radius: 2px;
+    box-sizing: border-box;
+  }
+  
+  .archivo-tarea-wrapper-lista-negocio {
+    width: calc(100% - 13px);
+    background-color: white;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    margin-left: 15px;
+    border: 1px solid rgba(153, 153, 153, 0.2);
+    border-radius: 2px;
+    box-sizing: border-box;
+  }
+  
+  .archivo-tarea-imagen {
+    width: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid rgba(153, 153, 153, 0.2);
+  }
+  
+  .archivo-tarea-nombre {
+    margin: 5px 10px;
+    font-size: 1rem;
+    color: #00b33c;
+  }
+  
+  .archivo-tarea-linea-inferior {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 5px;
+  }
+  
+  .archivo-tarea-hora {
+    margin: 0px 5px;
+    color: #00b33c;
+  }
+  
+  .archivo-tarea-peso {
+    margin: 0px 5px;
+  }
+  
+  .archivo-tarea-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 5px 5px;
+  }
