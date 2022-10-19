@@ -21,13 +21,16 @@
   border-bottom: solid 1px #e8e8e8;
   display: flex;
   flex-direction: column;
-  width: 35vw;
+  justify-content: center;
+  margin: 10px;
+  width: 20vw;
   height: 60vh;
 }
 
 /*color: #f9f9f9*/
 
 .titulo {
+  padding-left: 8px;
   display: flex;
   justify-content: flex-start;
   font-family: "Open Sans", sans-serif;
