@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext } from "react";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -14,6 +15,7 @@ import {
   InfoCircleOutlined,
 } from "@ant-design/icons";
 import NotaTarea from "../notaTarea/NotaTarea";
+import ArchivoTarea from "../archivoTarea/ArchivoTarea";
 
 const Calendario = () => {
   const { userId } = useContext(GlobalContext);
@@ -353,13 +355,13 @@ const Calendario = () => {
                         display={mostrar}
                       />
                     ) : null}
-                    {/* {tarea.up_id && (
-                      <ArchivoTareaNegocio
+                    {tarea.up_id && (
+                      <ArchivoTarea
                         archivo={tarea}
                         interno={true}
                         display={mostrar}
                       />
-                    )} */}
+                    )}
                   </div>
                 ))}
             </div>

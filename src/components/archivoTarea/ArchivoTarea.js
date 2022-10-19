@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import "./ArchivoTarea.css";
 import moment from "moment";
