@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext } from "react";
 import moment from "moment";
@@ -6,7 +7,7 @@ import { GET_TAREAS_CALENDARIO } from "../../graphql/query/tareas";
 import QueryResult from "../../queryResult/QueryResult";
 import { useQuery } from "@apollo/client";
 import { GlobalContext } from "../../context/GlobalContext";
-import { Badge, Calendar, Spin } from "antd";
+import { Badge, Calendar } from "antd";
 import "./Calendario.css";
 import {
   DownOutlined,
