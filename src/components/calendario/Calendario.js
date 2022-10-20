@@ -181,6 +181,7 @@ const Calendario = () => {
         <div className="titulo">Calendario</div>
         <div className="calendar">
           <Calendar
+            size="small"
             dateCellRender={dateCellRender}
             fullscreen={false}
             onSelect={onSelect}

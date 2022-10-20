@@ -32,7 +32,7 @@ function App() {
           setUserId,
         }}
         >
-          <Calendario />
+          <Calendario/>
         </GlobalContext.Provider>
       </ConfigProvider>
     </ApolloProvider>
