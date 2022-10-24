@@ -17,12 +17,12 @@
 body {
   overflow-y: hidden;
   overflow-x: hidden;
-  height: 500px;
+  height: 700px;
 }
 
 .ant-picker-body{
   /* border-right: solid 1px #e8e8e8; */
-  height: 500px;
+  height: 700px;
 }
 
 .ant-picker-calendar-header{
@@ -81,7 +81,7 @@ body {
 }
 
 .lista_tareas {
-  height:550px;
+  height:650px;
   width: 100%;
   overflow-y: scroll;
   
