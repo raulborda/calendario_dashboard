@@ -32,6 +32,7 @@ import {
 } from "@ant-design/icons";
 import NotaTarea from "../notaTarea/NotaTarea";
 import ArchivoTarea from "../archivoTarea/ArchivoTarea";
+import DetailDrawer from "../detailContent/DetailDrawer";
 
 const Calendario = () => {
   const { userId } = useContext(GlobalContext);
@@ -427,44 +428,44 @@ const Calendario = () => {
         );
       },
     },
-    {
-      title: "",
-      key: "",
-      width: 90,
-      render: (dataIndex, item) => (
-        <div className="options-wrapper">
-          <EyeOutlined
-            style={{ fontSize: "12px", marginRight: "15px", color: "green" }}
-            onClick={() => {
-              setTaskDrawerVisible({
-                visible: true,
-                content: "Ver Tarea",
-                task: item,
-              });
-            }}
-          />
-          <EditOutlined
-            style={{ fontSize: "12px", marginRight: "15px", color: "green" }}
-            onClick={() => {
-              setTaskDrawerVisible({
-                visible: true,
-                content: "Editar Tarea",
-                task: item,
-              });
-            }}
-          />
-          <Popconfirm
-            placement="topLeft"
-            title="¿Desea completar la tarea?"
-            okText="Si"
-            cancelText="No"
-            onConfirm={() => confirm(item)}
-          >
-            <CheckOutlined style={{ fontSize: "12px", color: "green" }} />
-          </Popconfirm>
-        </div>
-      ),
-    },
+    // {
+    //   title: "",
+    //   key: "",
+    //   width: 90,
+    //   render: (dataIndex, item) => (
+    //     <div className="options-wrapper">
+    //       <EyeOutlined
+    //         style={{ fontSize: "12px", marginRight: "15px", color: "green" }}
+    //         onClick={() => {
+    //           setTaskDrawerVisible({
+    //             visible: true,
+    //             content: "Ver Tarea",
+    //             task: item,
+    //           });
+    //         }}
+    //       />
+    //       <EditOutlined
+    //         style={{ fontSize: "12px", marginRight: "15px", color: "green" }}
+    //         onClick={() => {
+    //           setTaskDrawerVisible({
+    //             visible: true,
+    //             content: "Editar Tarea",
+    //             task: item,
+    //           });
+    //         }}
+    //       />
+    //       <Popconfirm
+    //         placement="topLeft"
+    //         title="¿Desea completar la tarea?"
+    //         okText="Si"
+    //         cancelText="No"
+    //         onConfirm={() => confirm(item)}
+    //       >
+    //         <CheckOutlined style={{ fontSize: "12px", color: "green" }} />
+    //       </Popconfirm>
+    //     </div>
+    //   ),
+    // },
   ];
 
   return (
