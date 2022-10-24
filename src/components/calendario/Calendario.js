@@ -5,7 +5,7 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { GET_TAREAS_CALENDARIO } from "../../graphql/query/tareas";
 import QueryResult from "../../queryResult/QueryResult";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { GlobalContext } from "../../context/GlobalContext";
 import {
   Badge,
@@ -32,9 +32,11 @@ import {
 } from "@ant-design/icons";
 import NotaTarea from "../notaTarea/NotaTarea";
 import ArchivoTarea from "../archivoTarea/ArchivoTarea";
-import DetailDrawer from "../detailContent/DetailDrawer";
+import { UPDATE_ESTADO_TAREA } from "../../graphql/mutation/tareas";
+import OpenNotification from "../notificacion/OpenNotification";
 
 const Calendario = () => {
+  const [updateEstadoTareaIframeResolver] = useMutation(UPDATE_ESTADO_TAREA);
   const { userId } = useContext(GlobalContext);
   const { setTaskDrawerVisible } = useContext(GlobalContext);
   const [showDetailDrawer, setShowDetailDrawer] = useState({
@@ -207,23 +209,23 @@ const Calendario = () => {
   };
 
   const confirm = (item) => {
-    // updateEstadoTareaIframeResolver({
-    //   variables: { idTarea: item.tar_id },
-    // }).then((res) => {
-    //   const { data } = res;
-    //   const resp = JSON.parse(data.updateEstadoTareaIframeResolver);
-    //   startPolling(1000);
-    //   setTimeout(() => {
-    //     stopPolling();
-    //   }, 1000);
-    // OpenNotification(
-    //   <h4>{resp.response}</h4>,
-    //   null,
-    //   "topleft",
-    //   <CheckOutlined style={{ color: "green" }} />,
-    //   null
-    // );
-    // });
+    updateEstadoTareaIframeResolver({
+      variables: { idTarea: item.tar_id },
+    }).then((res) => {
+      const { data } = res;
+      const resp = JSON.parse(data.updateEstadoTareaIframeResolver);
+      startPolling(1000);
+      setTimeout(() => {
+        stopPolling();
+      }, 1000);
+    OpenNotification(
+      <h4>{resp.response}</h4>,
+      null,
+      "topleft",
+      <CheckOutlined style={{ color: "green" }} />,
+      null
+    );
+    });
   };
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -428,44 +430,44 @@ const Calendario = () => {
         );
       },
     },
-    // {
-    //   title: "",
-    //   key: "",
-    //   width: 90,
-    //   render: (dataIndex, item) => (
-    //     <div className="options-wrapper">
-    //       <EyeOutlined
-    //         style={{ fontSize: "12px", marginRight: "15px", color: "green" }}
-    //         onClick={() => {
-    //           setTaskDrawerVisible({
-    //             visible: true,
-    //             content: "Ver Tarea",
-    //             task: item,
-    //           });
-    //         }}
-    //       />
-    //       <EditOutlined
-    //         style={{ fontSize: "12px", marginRight: "15px", color: "green" }}
-    //         onClick={() => {
-    //           setTaskDrawerVisible({
-    //             visible: true,
-    //             content: "Editar Tarea",
-    //             task: item,
-    //           });
-    //         }}
-    //       />
-    //       <Popconfirm
-    //         placement="topLeft"
-    //         title="¿Desea completar la tarea?"
-    //         okText="Si"
-    //         cancelText="No"
-    //         onConfirm={() => confirm(item)}
-    //       >
-    //         <CheckOutlined style={{ fontSize: "12px", color: "green" }} />
-    //       </Popconfirm>
-    //     </div>
-    //   ),
-    // },
+    {
+      title: "",
+      key: "",
+      width: 90,
+      render: (dataIndex, item) => (
+        <div className="options-wrapper">
+          {/* <EyeOutlined
+            style={{ fontSize: "12px", marginRight: "15px", color: "green" }}
+            onClick={() => {
+              setTaskDrawerVisible({
+                visible: true,
+                content: "Ver Tarea",
+                task: item,
+              });
+            }}
+          />
+          <EditOutlined
+            style={{ fontSize: "12px", marginRight: "15px", color: "green" }}
+            onClick={() => {
+              setTaskDrawerVisible({
+                visible: true,
+                content: "Editar Tarea",
+                task: item,
+              });
+            }}
+          /> */}
+          <Popconfirm
+            placement="topLeft"
+            title="¿Desea completar la tarea?"
+            okText="Si"
+            cancelText="No"
+            onConfirm={() => confirm(item)}
+          >
+            <CheckOutlined style={{ fontSize: "12px", color: "green", marginLeft:"50%" }} />
+          </Popconfirm>
+        </div>
+      ),
+    },
   ];
 
   return (
