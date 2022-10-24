@@ -7,19 +7,40 @@ import { GET_TAREAS_CALENDARIO } from "../../graphql/query/tareas";
 import QueryResult from "../../queryResult/QueryResult";
 import { useQuery } from "@apollo/client";
 import { GlobalContext } from "../../context/GlobalContext";
-import { Badge, Calendar } from "antd";
+import {
+  Badge,
+  Button,
+  Calendar,
+  Input,
+  Popconfirm,
+  Popover,
+  Space,
+  Table,
+  Tag,
+} from "antd";
 import "./Calendario.css";
 import {
   DownOutlined,
   ClockCircleOutlined,
   UserOutlined,
   InfoCircleOutlined,
+  EditOutlined,
+  CheckOutlined,
+  PaperClipOutlined,
+  SearchOutlined,
+  EyeOutlined,
 } from "@ant-design/icons";
 import NotaTarea from "../notaTarea/NotaTarea";
 import ArchivoTarea from "../archivoTarea/ArchivoTarea";
 
 const Calendario = () => {
   const { userId } = useContext(GlobalContext);
+  const { setTaskDrawerVisible } = useContext(GlobalContext);
+  const [showDetailDrawer, setShowDetailDrawer] = useState({
+    visible: false,
+    type: "",
+    idContent: null,
+  });
 
   /*Estados de consulta */
   const [value, setValue] = useState(() => moment().format("DD/MM/YYYY"));
@@ -173,7 +194,278 @@ const Calendario = () => {
     setValue(value.format("DD/MM/YYYY"));
   };
 
+  const handleDetail = (item) => {
+    //TODO handle tipo de detalle(negocio,encuestas,lotes,etc)
+    if (item.neg_id) {
+      setShowDetailDrawer({
+        visible: true,
+        type: "negocio",
+        idContent: item.neg_id,
+      });
+    }
+  };
+
+  const confirm = (item) => {
+    // updateEstadoTareaIframeResolver({
+    //   variables: { idTarea: item.tar_id },
+    // }).then((res) => {
+    //   const { data } = res;
+    //   const resp = JSON.parse(data.updateEstadoTareaIframeResolver);
+    //   startPolling(1000);
+    //   setTimeout(() => {
+    //     stopPolling();
+    //   }, 1000);
+    // OpenNotification(
+    //   <h4>{resp.response}</h4>,
+    //   null,
+    //   "topleft",
+    //   <CheckOutlined style={{ color: "green" }} />,
+    //   null
+    // );
+    // });
+  };
+
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+  };
+  const handleReset = (clearFilters) => {
+    clearFilters();
+  };
+
   console.log(selectedValue);
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          placeholder={"Buscar ..."}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ width: 188, marginBottom: 8, display: "block" }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Buscar
+          </Button>
+          <Button
+            onClick={() => handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reiniciar
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]
+        ? record[dataIndex]
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        : "",
+  });
+
+  const columns = [
+    {
+      title: "...",
+      dataIndex: "",
+      key: "prioridad",
+      render: (dataIndex, item) => {
+        let tagColor = "";
+        switch (true) {
+          case item.pri_id === 1:
+            tagColor = "red";
+            break;
+          case item.pri_id === 2:
+            tagColor = "gold";
+            break;
+          case item.pri_id === 3:
+            tagColor = "green";
+            break;
+          default:
+            break;
+        }
+        return (
+          <div className="firstcolumn-wrapper">
+            <Tag color={tagColor}>{item.pri_desc}</Tag>
+            {item.up_id && (
+              <PaperClipOutlined
+                onClick={() => {
+                  setTaskDrawerVisible({
+                    visible: true,
+                    content: "Ver Tarea",
+                    task: item,
+                  });
+                }}
+              />
+            )}
+          </div>
+        );
+      },
+      width: 80,
+    },
+    {
+      title: "Asunto",
+      dataIndex: "tar_asunto",
+      key: "tar_asunto",
+      ellipsis: true,
+      width: 200,
+      ...getColumnSearchProps("tar_asunto"),
+    },
+    {
+      title: "Cliente",
+      dataIndex: "cli_nombre",
+      key: "cli_nombre",
+      width: 200,
+      ...getColumnSearchProps("cli_nombre"),
+      render: (dataIndex, item) => {
+        return (
+          <span>
+            {dataIndex}
+            <span>
+              {" "}
+              {item.con_nombre && (
+                <Popover
+                  title={item.con_nombre}
+                  trigger={"hover"}
+                  placement="top"
+                  content={
+                    <div className="infocontacto-wrapper">
+                      <span>{item.con_telefono1}</span>
+                      <span>{item.con_email1}</span>
+                    </div>
+                  }
+                >
+                  <UserOutlined />
+                </Popover>
+              )}
+            </span>
+          </span>
+        );
+      },
+    },
+    {
+      title: "Fuente",
+      key: "fuente",
+      width: 90,
+      dataIndex: "ori_id",
+      render: (dataIndex, item) => (
+        <Tag color={item.ori_color} key={"key"}>
+          {item.ori_desc}
+        </Tag>
+      ),
+    },
+    {
+      title: "Creación",
+      key: "fechaCreacion",
+      width: 100,
+      dataIndex: "fechacreacion",
+      sorter: (a, b) => a.tar_fecha.localeCompare(b.tar_fecha),
+      showSorterTooltip: false,
+      // render: (dataIndex, item) => {
+      //   return <span>{moment(dataIndex).format("DD/MM/YYYY")}</span>;
+      // },
+    },
+    {
+      title: "Vencimiento",
+      key: "fechaVto",
+      dataIndex: "tar_vencimiento",
+      showSorterTooltip: false,
+      width: 150,
+      sorter: (a, b) => {
+        a.tar_vencimiento.localeCompare(b.tar_vencimiento);
+      },
+      render: (dataIndex, item) => (
+        <div className="vencimiento-wrapper">
+          <span style={{ marginRight: "5px" }}>
+            {dataIndex ? moment(dataIndex).format("DD/MM/YYYY") : "-"}
+          </span>
+          {/* <span>
+            {item.tar_horavencimiento && item.tar_horavencimiento.slice(0, -3)}
+          </span> */}
+        </div>
+      ),
+    },
+    {
+      title: "Asignado",
+      key: "asignado",
+      width: 90,
+      dataIndex: "asignado",
+      render: (dataIndex, item) => <span>{item.usu_nombre} </span>,
+    },
+    {
+      title: "Módulo",
+      key: "modori",
+      width: 90,
+      dataIndex: "mod_id",
+      render: (dataIndex, item) => {
+        return (
+          <Tag
+            color="lime"
+            onClick={() => handleDetail(item)}
+            style={{ cursor: "pointer" }}
+          >
+            {item.modori_desc ? item.modori_desc : "TAREAS"}
+          </Tag>
+        );
+      },
+    },
+    {
+      title: "",
+      key: "",
+      width: 90,
+      render: (dataIndex, item) => (
+        <div className="options-wrapper">
+          <EyeOutlined
+            style={{ fontSize: "12px", marginRight: "15px", color: "green" }}
+            onClick={() => {
+              setTaskDrawerVisible({
+                visible: true,
+                content: "Ver Tarea",
+                task: item,
+              });
+            }}
+          />
+          <EditOutlined
+            style={{ fontSize: "12px", marginRight: "15px", color: "green" }}
+            onClick={() => {
+              setTaskDrawerVisible({
+                visible: true,
+                content: "Editar Tarea",
+                task: item,
+              });
+            }}
+          />
+          <Popconfirm
+            placement="topLeft"
+            title="¿Desea completar la tarea?"
+            okText="Si"
+            cancelText="No"
+            onConfirm={() => confirm(item)}
+          >
+            <CheckOutlined style={{ fontSize: "12px", color: "green" }} />
+          </Popconfirm>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <>
@@ -190,9 +482,9 @@ const Calendario = () => {
               // onChange={(v) => setFilterDate(moment(v).format("YYYY-MM-DD"))}
             />
           </div>
-          <div className="lista_tareas">
+          <div className="lista_tareas" style={{}}>
             <QueryResult loading={loading} error={error} data={tareas}>
-              <div className="div_lista_calendario">
+              {/* <div className="div_lista_calendario">
                 {tareas &&
                   tareas.map((tarea) => (
                     <div className="tarea-negocio-contenedor">
@@ -367,7 +659,29 @@ const Calendario = () => {
                       )}
                     </div>
                   ))}
-              </div>
+              </div> */}
+              <Table
+                onRow={(record, rowIndex) => {
+                  return {
+                    onClick: (event) => {
+                      // alert(JSON.stringify(record));
+                      // console.log("click", record);
+                    }, // click row
+                    onDoubleClick: (event) => {}, // double click row
+                    onContextMenu: (event) => {}, // right button click row
+                    onMouseEnter: (event) => {}, // mouse enter row
+                    onMouseLeave: (event) => {}, // mouse leave row
+                  };
+                }}
+                columns={columns}
+                dataSource={tareas}
+                rowKey={"tar_id"}
+                size="small"
+              />
+              {/* <DetailDrawer
+                showDetailDrawer={showDetailDrawer}
+                closeDrawer={setShowDetailDrawer}
+              /> */}
             </QueryResult>
           </div>
         </div>

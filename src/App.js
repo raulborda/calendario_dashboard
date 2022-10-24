@@ -23,6 +23,11 @@ function App() {
     }
   }, []);
 
+  const [taskDrawerVisible, setTaskDrawerVisible] = useState({
+    visible: false,
+    content: null,
+  });
+
   return (
     <ApolloProvider client={apolloClient}>
       <ConfigProvider locale={esES}>
@@ -30,6 +35,8 @@ function App() {
         value={{
           userId,
           setUserId,
+          taskDrawerVisible, 
+          setTaskDrawerVisible
         }}
         >
           <Calendario/>

@@ -17,8 +17,16 @@
 body {
   overflow-y: hidden;
   overflow-x: hidden;
+  height: 500px;
+}
 
-  height: 450px;
+.ant-picker-body{
+  /* border-right: solid 1px #e8e8e8; */
+  height: 500px;
+}
+
+.ant-picker-calendar-header{
+  /* border-right: solid 1px #e8e8e8; */
 }
 
 .div_wrapper {
@@ -39,9 +47,9 @@ body {
   display: flex;
   flex-direction: row;
   border-bottom: solid 1px #e8e8e8;
+
 }
 
-/*color: #f9f9f9*/
 
 .titulo {
   padding-top: 0px;
@@ -69,13 +77,14 @@ body {
   justify-content: center;
   align-items: center;
   border-bottom: solid 1px #f4f4f4;
+  border-right: solid 1px #e8e8e8;
 }
 
 .lista_tareas {
-  height: 400px;
-  width: 104%;
-  margin-left: -6px;
+  height:550px;
+  width: 100%;
   overflow-y: scroll;
+  
 }
 .div_lista_calendario {
   margin-top: 8px;
