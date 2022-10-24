@@ -179,195 +179,197 @@ const Calendario = () => {
     <>
       <div className="div_wrapper">
         <div className="titulo">Calendario</div>
-        <div className="calendar">
-          <Calendar
-            size="small"
-            dateCellRender={dateCellRender}
-            fullscreen={false}
-            onSelect={onSelect}
-            onPanelChange={onPanelChange}
-            // onChange={(v) => setFilterDate(moment(v).format("YYYY-MM-DD"))}
-          />
-        </div>
-        <div className="lista_tareas">
-          <QueryResult loading={loading} error={error} data={tareas}>
-            <div className="div_lista_calendario">
-              {tareas &&
-                tareas.map((tarea) => (
-                  <div className="tarea-negocio-contenedor">
-                    <div
-                      className="tarea-negocio-wrapper wrapper_lista"
-                      onClick={() => setMostrar(!mostrar)}
-                    >
-                      <div className="tarea-negocio-linea-superior">
-                        <p
-                          style={{
-                            fontWeight: "bold",
-                            width: "100%",
-                            fontSize: "16px",
-                            marginTop: "4px",
-                            color: "#454545",
-                          }}
-                        >
-                          {tarea.tar_asunto}
-                        </p>
-                      </div>
-                      <div className="tarea-negocio-linea-intermedia">
-                        {tarea.cli_nombre ? (
-                          <div className="tarea-negocio-item">
-                            <UserOutlined
-                              style={{ color: "#00B33C", marginTop: "-5px" }}
-                            />
-                            <p className="tarea-negocio-contacto">
-                              {tarea.cli_nombre}
-                            </p>
-                          </div>
-                        ) : (
-                          ""
-                        )}
-                        {tarea.tip_desc ? (
-                          <div className="tarea-negocio-item">
-                            <InfoCircleOutlined
-                              style={{ color: "#00B33C", marginTop: "-2px" }}
-                            />
-                            <p className="tarea-negocio-tipoTarea">
-                              {tarea.tip_desc}
-                            </p>
-                          </div>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                      <div className="tarea-negocio-linea-inferior">
-                        <div className="tarea-negocio-linea-inferior-uno">
-                          <div className="tarea-contenedor-horario">
-                            <ClockCircleOutlined
-                              style={{
-                                color: dateHandler(tarea.fechavencimiento),
-                                fontSize: "0.8rem",
-                              }}
-                            />
-                            <p className="texto-tarea-horario">
-                              {handleFechaVer(tarea.fechavencimiento)}
-                            </p>
-                            {tarea.tar_horavencimiento && (
-                              <p className="texto-tarea-horario">
-                                {handleHora(tarea.tar_horavencimiento)} hs
+        <div className="calendar_lista">
+          <div className="calendar">
+            <Calendar
+              size="small"
+              dateCellRender={dateCellRender}
+              fullscreen={false}
+              onSelect={onSelect}
+              onPanelChange={onPanelChange}
+              // onChange={(v) => setFilterDate(moment(v).format("YYYY-MM-DD"))}
+            />
+          </div>
+          <div className="lista_tareas">
+            <QueryResult loading={loading} error={error} data={tareas}>
+              <div className="div_lista_calendario">
+                {tareas &&
+                  tareas.map((tarea) => (
+                    <div className="tarea-negocio-contenedor">
+                      <div
+                        className="tarea-negocio-wrapper wrapper_lista"
+                        onClick={() => setMostrar(!mostrar)}
+                      >
+                        <div className="tarea-negocio-linea-superior">
+                          <p
+                            style={{
+                              fontWeight: "bold",
+                              width: "100%",
+                              fontSize: "16px",
+                              marginTop: "4px",
+                              color: "#454545",
+                            }}
+                          >
+                            {tarea.tar_asunto}
+                          </p>
+                        </div>
+                        <div className="tarea-negocio-linea-intermedia">
+                          {tarea.cli_nombre ? (
+                            <div className="tarea-negocio-item">
+                              <UserOutlined
+                                style={{ color: "#00B33C", marginTop: "-5px" }}
+                              />
+                              <p className="tarea-negocio-contacto">
+                                {tarea.cli_nombre}
                               </p>
-                            )}
-                          </div>
-                          <div className="tarea-contenedor-horario">
-                            {tarea.pri_desc === "ALTA" ? (
-                              <div
-                                style={{
-                                  height: "20px",
-                                  width: "40px",
-                                  fontSize: "12px",
-                                  backgroundColor: "rgb(241, 45, 45)",
-                                  color: "white",
-                                  border: "solid 1px rgb(241, 45, 45)",
-                                  borderRadius: "4px",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  padding: "2px 5px",
-                                }}
-                              >
-                                ALTA
-                              </div>
-                            ) : null}
-                            {tarea.pri_desc === "MEDIA" ? (
-                              <div
-                                style={{
-                                  height: "20px",
-                                  width: "40px",
-                                  fontSize: "12px",
-                                  backgroundColor: "rgb(232, 188, 13)",
-                                  color: "white",
-                                  border: "solid 1px rgb(232, 188, 13)",
-                                  borderRadius: "4px",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  padding: "2px 5px",
-                                }}
-                              >
-                                MEDIA
-                              </div>
-                            ) : null}
-                            {tarea.pri_desc === "BAJA" ? (
-                              <div
-                                style={{
-                                  height: "20px",
-                                  width: "40px",
-                                  fontSize: "12px",
-                                  backgroundColor: "rgb(0, 179, 60)",
-                                  color: "white",
-                                  border: "solid 1px rgb(0, 179, 60)",
-                                  borderRadius: "4px",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  padding: "2px 5px",
-                                }}
-                              >
-                                BAJA
-                              </div>
-                            ) : null}
-                          </div>
-                          <div className="tarea-contenedor-horario">
-                            <p
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                border: "solid 1px #f4f4f4",
-                                height: "22px",
-                                width: "auto",
-                                fontSize: "12px",
-                                color: tarea.ori_color,
-                                borderColor: tarea.ori_color,
-                                backgroundColor: "white",
-                                padding: "2px 5px",
-                                borderRadius: "4px",
-                                marginLeft: "-2px",
-                                marginRight: "3px",
-                                marginTop: "11px",
-                              }}
-                            >
-                              {tarea.ori_desc}
-                            </p>
-                          </div>
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                          {tarea.tip_desc ? (
+                            <div className="tarea-negocio-item">
+                              <InfoCircleOutlined
+                                style={{ color: "#00B33C", marginTop: "-2px" }}
+                              />
+                              <p className="tarea-negocio-tipoTarea">
+                                {tarea.tip_desc}
+                              </p>
+                            </div>
+                          ) : (
+                            ""
+                          )}
                         </div>
-                        <div className="tarea-negocio-linea-inferior-dos">
-                          <div className="VerMas">
-                            {(tarea.not_id &&
-                              tarea.not_desc !== "<p><br></p>") ||
-                            tarea.up_id ? (
-                              <DownOutlined />
-                            ) : null}
+                        <div className="tarea-negocio-linea-inferior">
+                          <div className="tarea-negocio-linea-inferior-uno">
+                            <div className="tarea-contenedor-horario">
+                              <ClockCircleOutlined
+                                style={{
+                                  color: dateHandler(tarea.fechavencimiento),
+                                  fontSize: "0.8rem",
+                                }}
+                              />
+                              <p className="texto-tarea-horario">
+                                {handleFechaVer(tarea.fechavencimiento)}
+                              </p>
+                              {tarea.tar_horavencimiento && (
+                                <p className="texto-tarea-horario">
+                                  {handleHora(tarea.tar_horavencimiento)} hs
+                                </p>
+                              )}
+                            </div>
+                            <div className="tarea-contenedor-horario">
+                              {tarea.pri_desc === "ALTA" ? (
+                                <div
+                                  style={{
+                                    height: "20px",
+                                    width: "40px",
+                                    fontSize: "12px",
+                                    backgroundColor: "rgb(241, 45, 45)",
+                                    color: "white",
+                                    border: "solid 1px rgb(241, 45, 45)",
+                                    borderRadius: "4px",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    padding: "2px 5px",
+                                  }}
+                                >
+                                  ALTA
+                                </div>
+                              ) : null}
+                              {tarea.pri_desc === "MEDIA" ? (
+                                <div
+                                  style={{
+                                    height: "20px",
+                                    width: "40px",
+                                    fontSize: "12px",
+                                    backgroundColor: "rgb(232, 188, 13)",
+                                    color: "white",
+                                    border: "solid 1px rgb(232, 188, 13)",
+                                    borderRadius: "4px",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    padding: "2px 5px",
+                                  }}
+                                >
+                                  MEDIA
+                                </div>
+                              ) : null}
+                              {tarea.pri_desc === "BAJA" ? (
+                                <div
+                                  style={{
+                                    height: "20px",
+                                    width: "40px",
+                                    fontSize: "12px",
+                                    backgroundColor: "rgb(0, 179, 60)",
+                                    color: "white",
+                                    border: "solid 1px rgb(0, 179, 60)",
+                                    borderRadius: "4px",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    padding: "2px 5px",
+                                  }}
+                                >
+                                  BAJA
+                                </div>
+                              ) : null}
+                            </div>
+                            <div className="tarea-contenedor-horario">
+                              <p
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  border: "solid 1px #f4f4f4",
+                                  height: "22px",
+                                  width: "auto",
+                                  fontSize: "12px",
+                                  color: tarea.ori_color,
+                                  borderColor: tarea.ori_color,
+                                  backgroundColor: "white",
+                                  padding: "2px 5px",
+                                  borderRadius: "4px",
+                                  marginLeft: "-2px",
+                                  marginRight: "3px",
+                                  marginTop: "11px",
+                                }}
+                              >
+                                {tarea.ori_desc}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="tarea-negocio-linea-inferior-dos">
+                            <div className="VerMas">
+                              {(tarea.not_id &&
+                                tarea.not_desc !== "<p><br></p>") ||
+                              tarea.up_id ? (
+                                <DownOutlined />
+                              ) : null}
+                            </div>
                           </div>
                         </div>
                       </div>
+                      {tarea.not_id && tarea.not_desc !== "<p><br></p>" ? (
+                        <NotaTarea
+                          nota={tarea}
+                          interno={true}
+                          display={mostrar}
+                        />
+                      ) : null}
+                      {tarea.up_id && (
+                        <ArchivoTarea
+                          archivo={tarea}
+                          interno={true}
+                          display={mostrar}
+                        />
+                      )}
                     </div>
-                    {tarea.not_id && tarea.not_desc !== "<p><br></p>" ? (
-                      <NotaTarea
-                        nota={tarea}
-                        interno={true}
-                        display={mostrar}
-                      />
-                    ) : null}
-                    {tarea.up_id && (
-                      <ArchivoTarea
-                        archivo={tarea}
-                        interno={true}
-                        display={mostrar}
-                      />
-                    )}
-                  </div>
-                ))}
-            </div>
-          </QueryResult>
+                  ))}
+              </div>
+            </QueryResult>
+          </div>
         </div>
       </div>
     </>
