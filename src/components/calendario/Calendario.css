@@ -76,7 +76,9 @@ body {
 }
 
 .ant-spin-container{
-  border: solid 1px #e8e8e8;
+  border-top: solid 1px #e8e8e8;
+  border-left: solid 1px #e8e8e8;
+  border-right: solid 1px #e8e8e8;
 }
 
 .lista_tareas {
