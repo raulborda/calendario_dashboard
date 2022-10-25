@@ -1,14 +1,14 @@
 @import "antd/dist/antd.css";
 
-.lista_tareas::-webkit-scrollbar {
+.ant-table-body::-webkit-scrollbar {
   width: 8px;
   background-color: white;
 }
-.lista_tareas::-webkit-scrollbar-track {
+.ant-table-body::-webkit-scrollbar-track {
   border-radius: 10px;
   background-color: white;
 }
-.lista_tareas::-webkit-scrollbar-thumb {
+.ant-table-body::-webkit-scrollbar-thumb {
   border-radius: 10px;
   height: auto;
   background-color: #cccccc;
@@ -47,7 +47,7 @@ body {
 .calendar_lista{
   display: flex;
   flex-direction: row;
-  border-bottom: solid 1px #e8e8e8;
+  /* border-bottom: solid 1px #e8e8e8; */
 
 }
 
@@ -88,11 +88,11 @@ body {
 }
 
 .lista_tareas {
-  height:auto;
+  height:372px;
   width: 100%;
-  overflow-y: scroll;
-  
+  /* overflow-y: scroll;   */
 }
+
 .div_lista_calendario {
   margin-top: 8px;
 }
