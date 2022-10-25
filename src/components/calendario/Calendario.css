@@ -77,6 +77,10 @@ body {
   border-right: solid 1px #e8e8e8;
 }
 
+.ant-pagination{
+  margin-right: 30px !important;
+}
+
 .ant-spin-container{
   border-top: solid 1px #e8e8e8;
   /* border-left: solid 1px #e8e8e8;
