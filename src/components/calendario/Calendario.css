@@ -73,12 +73,10 @@ body {
   align-items: center;
   height: 410px;
   margin-top: -2px;
-  border-right: solid 1px #e8e8e8;
 }
 
 .ant-spin-container{
-  border-top: solid 1px #e8e8e8;
-  border-right: solid 1px #e8e8e8;
+  border: solid 1px #e8e8e8;
 }
 
 .lista_tareas {

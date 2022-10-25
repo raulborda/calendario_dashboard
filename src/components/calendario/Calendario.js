@@ -488,7 +488,7 @@ const Calendario = () => {
             <QueryResult loading={loading} error={error} data={tareas}>
               <Table
                 scroll={{
-                  y:200,
+                  y:250,
                 }}
                 onRow={(record, rowIndex) => {
                   return {
