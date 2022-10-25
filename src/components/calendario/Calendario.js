@@ -473,7 +473,7 @@ const Calendario = () => {
   return (
     <>
       <div className="div_wrapper">
-        <div className="titulo">Calendario</div>
+        <div className="titulo">Tareas</div>
         <div className="calendar_lista">
           <div className="calendar">
             <Calendar
