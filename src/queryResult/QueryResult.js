@@ -2,6 +2,7 @@ import { Empty, Spin } from "antd";
 import "./index.css";
 
 const QueryResult = ({ loading, error, data, children }) => {
+ //console.log(data)
   if (error) {
     return <p>ERROR: {error.message}</p>;
   }

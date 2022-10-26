@@ -97,6 +97,10 @@ body {
   margin-top: 8px;
 }
 
+.tabla_cumple .ant-pagination{
+  display: none;
+}
+
 .tarea-negocio-contenedor {
   width: calc(100% - 9px);
   display: flex;

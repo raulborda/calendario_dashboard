@@ -12,6 +12,7 @@ import {
   Button,
   Calendar,
   Input,
+  List,
   Popconfirm,
   Popover,
   Space,
@@ -29,11 +30,14 @@ import {
   PaperClipOutlined,
   SearchOutlined,
   EyeOutlined,
+  StarOutlined,
+  HeartOutlined,
 } from "@ant-design/icons";
 import NotaTarea from "../notaTarea/NotaTarea";
 import ArchivoTarea from "../archivoTarea/ArchivoTarea";
 import { UPDATE_ESTADO_TAREA } from "../../graphql/mutation/tareas";
 import OpenNotification from "../notificacion/OpenNotification";
+import { GET_CUMPLEANIOS_CALENDARIO } from "../../graphql/query/cumpleanios";
 
 const Calendario = () => {
   const [updateEstadoTareaIframeResolver] = useMutation(UPDATE_ESTADO_TAREA);
@@ -54,7 +58,11 @@ const Calendario = () => {
   const [tareasCalendario, setTareasCalendario] = useState();
   const [pollTareas, setPollTareas] = useState();
   const [tareas, setTareas] = useState();
-  const [mostrar, setMostrar] = useState(false);
+
+  const [fechaNacCalendar, setFechaNacCalendar] = useState(
+    moment().format("DD-MM")
+  );
+  const [listaCumple, setListaCumple] = useState([]);
 
   const [tasksDates, setTasksDates] = useState([]);
 
@@ -67,7 +75,48 @@ const Calendario = () => {
     }
   );
 
-  console.log(data);
+  const {
+    data: dataCumpleanito,
+    loading: loadingCumpleanito,
+    error: errorCumpleanito,
+    startPolling: startPollingCumple,
+    stopPolling: stopPollingCumple,
+  } = useQuery(GET_CUMPLEANIOS_CALENDARIO, {
+    variables: {
+      fechaNac: fechaNacCalendar,
+    },
+  });
+
+  let array = [];
+  useEffect(() => {
+    if (dataCumpleanito) {
+      const cumpleanio = JSON.parse(dataCumpleanito.getCumpleaniosResolver);
+      console.log(cumpleanio.length);
+      console.log(cumpleanio);
+      for (let index = 0; index < cumpleanio.length; index++) {
+        const nombre = cumpleanio[index].con_nombre;
+        const edad = cumpleanio[index].edad;
+        let empresa = cumpleanio[index].cli_nombre;
+
+        if (empresa === null) {
+          empresa = "";
+        }
+
+        let frase =
+          "Hoy cumple " +
+          edad +
+          " años " +
+          nombre +
+          " de la empresa " +
+          empresa;
+        console.log(frase);
+        array.push(frase);
+      }
+
+      setListaCumple(array);
+      console.log(listaCumple);
+    }
+  }, [dataCumpleanito]);
 
   const getListData = (value) => {
     let listData = [];
@@ -112,18 +161,6 @@ const Calendario = () => {
     );
   };
 
-  //*Handles para separar las fechasHoras en fecha y hora como viene de base de datos con moment.js
-
-  const handleFechaVer = (val) => {
-    let fecha = moment(val, "DD/MM/YYYY").format("DD/MM/YYYY");
-    return fecha;
-  };
-
-  const handleHora = (val) => {
-    let horaSola = moment(val, "HH:mm:ss").format("LT");
-    return horaSola;
-  };
-
   const ordenarDatos = (tareasBasico, filtroFecha) => {
     let fecha = moment(filtroFecha, "YYYY-MM-DD").format("DD/MM/YYYY");
     let tareasOrdenadas;
@@ -149,7 +186,6 @@ const Calendario = () => {
     setPollTareas({ inicial: startPolling, stop: stopPolling });
     if (data) {
       const tareas = JSON.parse(data.getTareasPropiasMobileResolver);
-
       if (JSON.parse(data.getTareasPropiasMobileResolver)) {
         ordenarDatos(
           JSON.parse(data.getTareasPropiasMobileResolver).tareasPropiasPorFecha,
@@ -192,9 +228,11 @@ const Calendario = () => {
     setValue(value.format("DD/MM/YYYY"));
     setSelectedValue(value.format("DD/MM/YYYY"));
     setFiltroFecha(value.format("YYYY-MM-DD"));
+    setFechaNacCalendar(value.format("DD-MM"));
   };
   const onPanelChange = (value) => {
     setValue(value.format("DD/MM/YYYY"));
+    setFechaNacCalendar(value.format("DD-MM"));
   };
 
   const handleDetail = (item) => {
@@ -218,13 +256,13 @@ const Calendario = () => {
       setTimeout(() => {
         stopPolling();
       }, 1000);
-    OpenNotification(
-      <h4>{resp.response}</h4>,
-      null,
-      "topleft",
-      <CheckOutlined style={{ color: "green" }} />,
-      null
-    );
+      OpenNotification(
+        <h4>{resp.response}</h4>,
+        null,
+        "topleft",
+        <CheckOutlined style={{ color: "green" }} />,
+        null
+      );
     });
   };
 
@@ -235,7 +273,6 @@ const Calendario = () => {
     clearFilters();
   };
 
-  console.log(selectedValue);
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
       setSelectedKeys,
@@ -284,6 +321,33 @@ const Calendario = () => {
             .includes(value.toLowerCase())
         : "",
   });
+
+  console.log(listaCumple.length);
+  for (let index = 0; index < listaCumple.length; index++) {
+    console.log(listaCumple[index]);
+  }
+  const columnsCumples = [
+    {
+      title: "Cumpleaños",
+      dataIndex: "",
+      key: "cumple",
+      render: (dataIndex, item) => {
+        return (
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <div style={{ marginRight: "10px" }}>
+              <HeartOutlined style={{ color: "pink" }} />
+            </div>
+            <div>
+              <p>
+                {listaCumple}
+              </p>
+            </div>
+          </div>
+        );
+      },
+      width: 10,
+    },
+  ];
 
   const columns = [
     {
@@ -463,7 +527,9 @@ const Calendario = () => {
             cancelText="No"
             onConfirm={() => confirm(item)}
           >
-            <CheckOutlined style={{ fontSize: "12px", color: "green", marginLeft:"50%" }} />
+            <CheckOutlined
+              style={{ fontSize: "12px", color: "green", marginLeft: "50%" }}
+            />
           </Popconfirm>
         </div>
       ),
@@ -484,11 +550,15 @@ const Calendario = () => {
               onPanelChange={onPanelChange}
             />
           </div>
-          <div className="lista_tareas" style={{}}>
-            <QueryResult loading={loading} error={error} data={tareas}>
+          <div className="lista_tareas">
+            <QueryResult
+              loading={loading}
+              error={error}
+              data={[tareas, listaCumple]}
+            >
               <Table
                 scroll={{
-                  y:320,
+                  y: 210,
                 }}
                 onRow={(record, rowIndex) => {
                   return {
@@ -507,10 +577,21 @@ const Calendario = () => {
                 rowKey={"tar_id"}
                 size="small"
               />
+              <Table
+                className="tabla_cumple"
+                style={{ width: "99.95%" }}
+                scroll={{
+                  y: 110,
+                }}
+                columns={columnsCumples}
+                dataSource={listaCumple}
+                size="small"
+              />
+
               {/* <DetailDrawer
-                showDetailDrawer={showDetailDrawer}
-                closeDrawer={setShowDetailDrawer}
-              /> */}
+                    showDetailDrawer={showDetailDrawer}
+                    closeDrawer={setShowDetailDrawer}
+                  /> */}
             </QueryResult>
           </div>
         </div>
