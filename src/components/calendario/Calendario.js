@@ -101,7 +101,6 @@ const Calendario = () => {
         let empresa = cumpleanio[index].cli_nombre;
 
         fechaC = cumpleanio[index].con_fechanac;
-        console.log("fechaC", fechaC);
 
         if (empresa === null) {
           empresa = "";
@@ -376,7 +375,7 @@ const Calendario = () => {
         return (
           <div style={{ display: "flex", flexDirection: "row" }}>
             <div style={{ marginRight: "10px" }}>
-              <Image src={iconCumple} width={20} height={20} style={{marginTop:"-8px"}}/>
+              <Image src={iconCumple} preview={false} width={20} height={20} style={{marginTop:"-8px"}}/>
             </div>
             <div>
               <p>{listaCumple}</p>
