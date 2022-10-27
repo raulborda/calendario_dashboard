@@ -94,20 +94,22 @@ const Calendario = () => {
   useEffect(() => {
     if (dataCumpleanito) {
       const cumpleanio = JSON.parse(dataCumpleanito.getCumpleaniosResolver);
-      console.log(cumpleanio);
       for (let index = 0; index < cumpleanio.length; index++) {
         const nombre = cumpleanio[index].con_nombre;
         const edad = cumpleanio[index].edad;
         let empresa = cumpleanio[index].cli_nombre;
 
-        fechaC = cumpleanio[index].con_fechanac;
+        fechaC = moment(cumpleanio[index].con_fechanac, "YYYY-MM-DD").format(
+          "DD-MM"
+        );
 
         if (empresa === null) {
           empresa = "";
         }
 
         let frase =
-          "HOY CUMPLE " +
+          fechaC +
+          " CUMPLE " +
           edad +
           " AÑOS " +
           nombre +
@@ -144,63 +146,23 @@ const Calendario = () => {
     return listData;
   };
 
-  // const getListaDataC = (value) => {
-  //   let listC = [];
-
-  //   let f = moment(fechaC, "YYYY-MM-DD").format("DD-MM");
-
-  //   const existeCumple = listaCumple.filter((item) => {
-  //     return (f = moment(value).format("DD-MM"));
-  //   });
-
-  //   if (existeCumple.length > 0) {
-  //     listC = [
-  //       {
-  //         type: "1",
-  //       },
-  //     ];
-  //   } else {
-  //     listC = [
-  //       {
-  //         type: "0",
-  //       },
-  //     ];
-  //   }
-
-  //   return listC;
-  // };
-
   const dateCellRender = (value) => {
     const listData = getListData(value);
-    // const listDataC = getListaDataC(value);
 
     return (
       <>
-      <span>
-        {listData.map((item, idx) => {
-          return (
-            <Badge
-              key={idx}
-              size="small"
-              dot={true}
-              color={item.type === "1" ? "green" : "white"}
-            />
-          );
-        })}
-      </span>
-
-      {/* <span style={{marginLeft:"2px"}}>
-      {listDataC.map((item, idx) => {
-        return (
-          <Badge
-            key={idx}
-            size="small"
-            dot={true}
-            color={item.type === "1" ? "cyan" : "white"}
-          />
-        );
-      })}
-    </span> */}
+        <span>
+          {listData.map((item, idx) => {
+            return (
+              <Badge
+                key={idx}
+                size="small"
+                dot={true}
+                color={item.type === "1" ? "green" : "white"}
+              />
+            );
+          })}
+        </span>
       </>
     );
   };
@@ -375,10 +337,16 @@ const Calendario = () => {
         return (
           <div style={{ display: "flex", flexDirection: "row" }}>
             <div style={{ marginRight: "10px" }}>
-              <Image src={iconCumple} preview={false} width={20} height={20} style={{marginTop:"-8px"}}/>
+              <Image
+                src={iconCumple}
+                preview={false}
+                width={20}
+                height={20}
+                style={{ marginTop: "-8px" }}
+              />
             </div>
             <div>
-              <p>{listaCumple}</p>
+              <p>{listaCumple.toUpperCase()}</p>
             </div>
           </div>
         );
@@ -386,6 +354,13 @@ const Calendario = () => {
       width: 10,
     },
   ];
+
+  const handleList = () => {
+    for (let index = 0; index < listaCumple.length; index++) {
+      let c = listaCumple[index];
+      console.log(c);
+    }
+  };
 
   const columns = [
     {
@@ -596,7 +571,8 @@ const Calendario = () => {
             >
               <Table
                 scroll={{
-                  y: 163,
+                   y: 163, //Para usar con otra tabla
+                  //y: 280,
                 }}
                 onRow={(record, rowIndex) => {
                   return {
@@ -625,6 +601,27 @@ const Calendario = () => {
                 dataSource={listaCumple}
                 size="small"
               />
+              {/* <Popover
+                placement="right"
+                title={"Cumpleaños"}
+                content={
+                  listaCumple && listaCumple.map((c) => (
+                    <List.Item
+                    key={c}>
+                      {c.toUpperCase()}
+                    </List.Item>
+                  ))}
+              >
+                <Button style={{ border: "none", boxShadow: "none" }}>
+                  <Image
+                    src={iconCumple}
+                    preview={false}
+                    width={20}
+                    height={20}
+                    style={{ marginTop: "-8px" }}
+                  />
+                </Button>
+              </Popover> */}
 
               {/* <DetailDrawer
                     showDetailDrawer={showDetailDrawer}
