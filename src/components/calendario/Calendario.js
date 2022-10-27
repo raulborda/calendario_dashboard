@@ -88,15 +88,18 @@ const Calendario = () => {
   });
 
   let array = [];
+  let fechaC = "";
   useEffect(() => {
     if (dataCumpleanito) {
       const cumpleanio = JSON.parse(dataCumpleanito.getCumpleaniosResolver);
-      console.log(cumpleanio.length);
       console.log(cumpleanio);
       for (let index = 0; index < cumpleanio.length; index++) {
         const nombre = cumpleanio[index].con_nombre;
         const edad = cumpleanio[index].edad;
         let empresa = cumpleanio[index].cli_nombre;
+
+        fechaC = cumpleanio[index].con_fechanac;
+        console.log("fechaC", fechaC);
 
         if (empresa === null) {
           empresa = "";
@@ -109,12 +112,10 @@ const Calendario = () => {
           nombre +
           " DE LA EMPRESA " +
           empresa;
-        console.log(frase);
         array.push(frase);
       }
 
       setListaCumple(array);
-      console.log(listaCumple);
     }
   }, [dataCumpleanito]);
 
@@ -142,10 +143,38 @@ const Calendario = () => {
     return listData;
   };
 
+  // const getListaDataC = (value) => {
+  //   let listC = [];
+
+  //   let f = moment(fechaC, "YYYY-MM-DD").format("DD-MM");
+
+  //   const existeCumple = listaCumple.filter((item) => {
+  //     return (f = moment(value).format("DD-MM"));
+  //   });
+
+  //   if (existeCumple.length > 0) {
+  //     listC = [
+  //       {
+  //         type: "1",
+  //       },
+  //     ];
+  //   } else {
+  //     listC = [
+  //       {
+  //         type: "0",
+  //       },
+  //     ];
+  //   }
+
+  //   return listC;
+  // };
+
   const dateCellRender = (value) => {
     const listData = getListData(value);
+    // const listDataC = getListaDataC(value);
 
     return (
+      <>
       <span>
         {listData.map((item, idx) => {
           return (
@@ -158,6 +187,20 @@ const Calendario = () => {
           );
         })}
       </span>
+
+      {/* <span style={{marginLeft:"2px"}}>
+      {listDataC.map((item, idx) => {
+        return (
+          <Badge
+            key={idx}
+            size="small"
+            dot={true}
+            color={item.type === "1" ? "cyan" : "white"}
+          />
+        );
+      })}
+    </span> */}
+      </>
     );
   };
 
@@ -322,7 +365,6 @@ const Calendario = () => {
         : "",
   });
 
- 
   const columnsCumples = [
     {
       title: "Cumpleaños",
@@ -335,9 +377,7 @@ const Calendario = () => {
               <HeartOutlined style={{ color: "pink" }} />
             </div>
             <div>
-              <p>
-                {listaCumple}               
-              </p>
+              <p>{listaCumple}</p>
             </div>
           </div>
         );
