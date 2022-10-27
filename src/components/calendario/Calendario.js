@@ -11,6 +11,7 @@ import {
   Badge,
   Button,
   Calendar,
+  Image,
   Input,
   List,
   Popconfirm,
@@ -38,6 +39,7 @@ import ArchivoTarea from "../archivoTarea/ArchivoTarea";
 import { UPDATE_ESTADO_TAREA } from "../../graphql/mutation/tareas";
 import OpenNotification from "../notificacion/OpenNotification";
 import { GET_CUMPLEANIOS_CALENDARIO } from "../../graphql/query/cumpleanios";
+import iconCumple from "../../birthday-cake.png";
 
 const Calendario = () => {
   const [updateEstadoTareaIframeResolver] = useMutation(UPDATE_ESTADO_TAREA);
@@ -374,7 +376,7 @@ const Calendario = () => {
         return (
           <div style={{ display: "flex", flexDirection: "row" }}>
             <div style={{ marginRight: "10px" }}>
-              <HeartOutlined style={{ color: "pink" }} />
+              <Image src={iconCumple} width={20} height={20} style={{marginTop:"-8px"}}/>
             </div>
             <div>
               <p>{listaCumple}</p>
