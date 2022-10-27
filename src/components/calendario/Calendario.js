@@ -103,11 +103,11 @@ const Calendario = () => {
         }
 
         let frase =
-          "Hoy cumple " +
+          "HOY CUMPLE " +
           edad +
-          " años " +
+          " AÑOS " +
           nombre +
-          " de la empresa " +
+          " DE LA EMPRESA " +
           empresa;
         console.log(frase);
         array.push(frase);
@@ -322,16 +322,13 @@ const Calendario = () => {
         : "",
   });
 
-  console.log(listaCumple.length);
-  for (let index = 0; index < listaCumple.length; index++) {
-    console.log(listaCumple[index]);
-  }
+ 
   const columnsCumples = [
     {
       title: "Cumpleaños",
       dataIndex: "",
       key: "cumple",
-      render: (dataIndex, item) => {
+      render: (listaCumple) => {
         return (
           <div style={{ display: "flex", flexDirection: "row" }}>
             <div style={{ marginRight: "10px" }}>
@@ -339,7 +336,7 @@ const Calendario = () => {
             </div>
             <div>
               <p>
-                {listaCumple}
+                {listaCumple}               
               </p>
             </div>
           </div>
@@ -558,7 +555,7 @@ const Calendario = () => {
             >
               <Table
                 scroll={{
-                  y: 210,
+                  y: 163,
                 }}
                 onRow={(record, rowIndex) => {
                   return {
