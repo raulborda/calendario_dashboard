@@ -95,7 +95,7 @@ const Calendario = () => {
     if (dataCumpleanito) {
       const cumpleanio = JSON.parse(dataCumpleanito.getCumpleaniosResolver);
       for (let index = 0; index < cumpleanio.length; index++) {
-        const nombre = cumpleanio[index].con_nombre;
+        let nombre = cumpleanio[index].con_nombre;
         const edad = cumpleanio[index].edad;
         let empresa = cumpleanio[index].cli_nombre;
 
@@ -107,14 +107,7 @@ const Calendario = () => {
           empresa = "";
         }
 
-        let frase =
-          fechaC +
-          " CUMPLE " +
-          edad +
-          " AÑOS " +
-          nombre +
-          " DE LA EMPRESA " +
-          empresa;
+        let frase = fechaC + " CUMPLE " + edad + " AÑOS " + nombre;
         array.push(frase);
       }
 
@@ -477,18 +470,8 @@ const Calendario = () => {
           <span style={{ marginRight: "5px" }}>
             {dataIndex ? moment(dataIndex).format("DD/MM/YYYY") : "-"}
           </span>
-          {/* <span>
-            {item.tar_horavencimiento && item.tar_horavencimiento.slice(0, -3)}
-          </span> */}
         </div>
       ),
-    },
-    {
-      title: "Asignado",
-      key: "asignado",
-      width: 90,
-      dataIndex: "asignado",
-      render: (dataIndex, item) => <span>{item.usu_nombre} </span>,
     },
     {
       title: "Módulo",
@@ -513,26 +496,6 @@ const Calendario = () => {
       width: 90,
       render: (dataIndex, item) => (
         <div className="options-wrapper">
-          {/* <EyeOutlined
-            style={{ fontSize: "12px", marginRight: "15px", color: "green" }}
-            onClick={() => {
-              setTaskDrawerVisible({
-                visible: true,
-                content: "Ver Tarea",
-                task: item,
-              });
-            }}
-          />
-          <EditOutlined
-            style={{ fontSize: "12px", marginRight: "15px", color: "green" }}
-            onClick={() => {
-              setTaskDrawerVisible({
-                visible: true,
-                content: "Editar Tarea",
-                task: item,
-              });
-            }}
-          /> */}
           <Popconfirm
             placement="topLeft"
             title="¿Desea completar la tarea?"
@@ -552,7 +515,31 @@ const Calendario = () => {
   return (
     <>
       <div className="div_wrapper">
-        <div className="titulo">Tareas</div>
+        <div style={{display:"flex", flexDirection:"row"}}>
+          <div className="titulo">Tareas</div>
+          <div>
+            <Popover
+              placement="leftTop"
+              title={"Cumpleaños"}
+              content={
+                listaCumple &&
+                listaCumple.map((c) => (
+                  <List.Item key={c}>{c.toUpperCase()}</List.Item>
+                ))
+              }
+            >
+              <Button style={{ border: "none", boxShadow: "none" }}>
+                <Image
+                  src={iconCumple}
+                  preview={false}
+                  width={20}
+                  height={20}
+                  style={{ marginTop: "-8px" }}
+                />
+              </Button>
+            </Popover>
+          </div>
+        </div>
         <div className="calendar_lista">
           <div className="calendar">
             <Calendar
@@ -571,8 +558,8 @@ const Calendario = () => {
             >
               <Table
                 scroll={{
-                   y: 163, //Para usar con otra tabla
-                  //y: 280,
+                  //y: 163, //Para usar con otra tabla
+                  y: 320,
                 }}
                 onRow={(record, rowIndex) => {
                   return {
@@ -591,7 +578,7 @@ const Calendario = () => {
                 rowKey={"tar_id"}
                 size="small"
               />
-              <Table
+              {/* <Table
                 className="tabla_cumple"
                 style={{ width: "99.95%" }}
                 scroll={{
@@ -600,7 +587,7 @@ const Calendario = () => {
                 columns={columnsCumples}
                 dataSource={listaCumple}
                 size="small"
-              />
+              /> */}
               {/* <Popover
                 placement="right"
                 title={"Cumpleaños"}
@@ -622,11 +609,6 @@ const Calendario = () => {
                   />
                 </Button>
               </Popover> */}
-
-              {/* <DetailDrawer
-                    showDetailDrawer={showDetailDrawer}
-                    closeDrawer={setShowDetailDrawer}
-                  /> */}
             </QueryResult>
           </div>
         </div>
