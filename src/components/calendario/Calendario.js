@@ -515,33 +515,33 @@ const Calendario = () => {
   return (
     <>
       <div className="div_wrapper">
-        <div style={{display:"flex", flexDirection:"row"}}>
+        <div>
           <div className="titulo">Tareas</div>
-          <div>
-            <Popover
-              placement="leftTop"
-              title={"Cumpleaños"}
-              content={
-                listaCumple &&
-                listaCumple.map((c) => (
-                  <List.Item key={c}>{c.toUpperCase()}</List.Item>
-                ))
-              }
-            >
-              <Button style={{ border: "none", boxShadow: "none" }}>
-                <Image
-                  src={iconCumple}
-                  preview={false}
-                  width={20}
-                  height={20}
-                  style={{ marginTop: "-8px" }}
-                />
-              </Button>
-            </Popover>
-          </div>
         </div>
         <div className="calendar_lista">
-          <div className="calendar">
+          <div className="calendar" style={{display:"flex", flexDirection:"column"}}>
+            <div className="popoverC">
+              <Popover
+                placement="bottom"
+                title={"Cumpleaños"}
+                content={
+                  listaCumple &&
+                  listaCumple.map((c) => (
+                    <List.Item key={c}>{c.toUpperCase()}</List.Item>
+                  ))
+                }
+              >
+                <Button style={{ border: "none", boxShadow: "none" }}>
+                  <Image
+                    src={iconCumple}
+                    preview={false}
+                    width={20}
+                    height={20}
+                    style={{ marginTop: "-8px" }}
+                  />
+                </Button>
+              </Popover>
+            </div>
             <Calendar
               size="small"
               dateCellRender={dateCellRender}
@@ -558,7 +558,6 @@ const Calendario = () => {
             >
               <Table
                 scroll={{
-                  //y: 163, //Para usar con otra tabla
                   y: 320,
                 }}
                 onRow={(record, rowIndex) => {
@@ -578,37 +577,6 @@ const Calendario = () => {
                 rowKey={"tar_id"}
                 size="small"
               />
-              {/* <Table
-                className="tabla_cumple"
-                style={{ width: "99.95%" }}
-                scroll={{
-                  y: 110,
-                }}
-                columns={columnsCumples}
-                dataSource={listaCumple}
-                size="small"
-              /> */}
-              {/* <Popover
-                placement="right"
-                title={"Cumpleaños"}
-                content={
-                  listaCumple && listaCumple.map((c) => (
-                    <List.Item
-                    key={c}>
-                      {c.toUpperCase()}
-                    </List.Item>
-                  ))}
-              >
-                <Button style={{ border: "none", boxShadow: "none" }}>
-                  <Image
-                    src={iconCumple}
-                    preview={false}
-                    width={20}
-                    height={20}
-                    style={{ marginTop: "-8px" }}
-                  />
-                </Button>
-              </Popover> */}
             </QueryResult>
           </div>
         </div>
