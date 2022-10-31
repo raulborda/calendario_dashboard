@@ -519,10 +519,10 @@ const Calendario = () => {
           <div className="titulo">Tareas</div>
         </div>
         <div className="calendar_lista">
-          <div className="calendar" style={{display:"flex", flexDirection:"column"}}>
+          <div className="calendar" style={{display:"flex", flexDirection:"column", justifyContent:"flex-start"}}>
             <div className="popoverC">
               <Popover
-                placement="bottom"
+                placement="bottomLeft"
                 title={"Cumpleaños"}
                 content={
                   listaCumple &&
