@@ -44,6 +44,7 @@ import iconCumple from "../../birthday-cake.png";
 const Calendario = () => {
   const [updateEstadoTareaIframeResolver] = useMutation(UPDATE_ESTADO_TAREA);
   const { userId } = useContext(GlobalContext);
+  console.log(userId)
   const { setTaskDrawerVisible } = useContext(GlobalContext);
   const [showDetailDrawer, setShowDetailDrawer] = useState({
     visible: false,
@@ -114,6 +115,8 @@ const Calendario = () => {
       setListaCumple(array);
     }
   }, [dataCumpleanito]);
+
+  
 
   const getListData = (value) => {
     let listData = [];
@@ -196,14 +199,14 @@ const Calendario = () => {
         setTasksDates(tareas.fechasVenc);
       }
     }
-  }, [data, filtroFecha]);
+  }, [data, filtroFecha, userId]);
 
   useEffect(() => {
     startPolling(1000);
     setTimeout(() => {
       stopPolling();
     }, 1000);
-  }, [data]);
+  }, [data, dataCumpleanito]);
 
   let fechaActual = moment();
 
@@ -321,39 +324,39 @@ const Calendario = () => {
         : "",
   });
 
-  const columnsCumples = [
-    {
-      title: "Cumpleaños",
-      dataIndex: "",
-      key: "cumple",
-      render: (listaCumple) => {
-        return (
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <div style={{ marginRight: "10px" }}>
-              <Image
-                src={iconCumple}
-                preview={false}
-                width={20}
-                height={20}
-                style={{ marginTop: "-8px" }}
-              />
-            </div>
-            <div>
-              <p>{listaCumple.toUpperCase()}</p>
-            </div>
-          </div>
-        );
-      },
-      width: 10,
-    },
-  ];
+  // const columnsCumples = [
+  //   {
+  //     title: "Cumpleaños",
+  //     dataIndex: "",
+  //     key: "cumple",
+  //     render: (listaCumple) => {
+  //       return (
+  //         <div style={{ display: "flex", flexDirection: "row" }}>
+  //           <div style={{ marginRight: "10px" }}>
+  //             <Image
+  //               src={iconCumple}
+  //               preview={false}
+  //               width={20}
+  //               height={20}
+  //               style={{ marginTop: "-8px" }}
+  //             />
+  //           </div>
+  //           <div>
+  //             <p>{listaCumple.toUpperCase()}</p>
+  //           </div>
+  //         </div>
+  //       );
+  //     },
+  //     width: 10,
+  //   },
+  // ];
 
-  const handleList = () => {
-    for (let index = 0; index < listaCumple.length; index++) {
-      let c = listaCumple[index];
-      console.log(c);
-    }
-  };
+  // const handleList = () => {
+  //   for (let index = 0; index < listaCumple.length; index++) {
+  //     let c = listaCumple[index];
+  //     console.log(c);
+  //   }
+  // };
 
   const columns = [
     {
@@ -554,7 +557,7 @@ const Calendario = () => {
             <QueryResult
               loading={loading}
               error={error}
-              data={[tareas, listaCumple]}
+              data={tareas}
             >
               <Table
                 scroll={{
