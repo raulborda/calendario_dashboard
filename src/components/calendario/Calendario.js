@@ -82,8 +82,6 @@ const Calendario = () => {
     data: dataCumpleanito,
     loading: loadingCumpleanito,
     error: errorCumpleanito,
-    startPolling: startPollingCumple,
-    stopPolling: stopPollingCumple,
   } = useQuery(GET_CUMPLEANIOS_CALENDARIO, {
     variables: {
       fechaNac: fechaNacCalendar,
@@ -188,6 +186,7 @@ const Calendario = () => {
     setPollTareas({ inicial: startPolling, stop: stopPolling });
     if (data) {
       const tareas = JSON.parse(data.getTareasPropiasMobileResolver);
+      console.log(tareas);
       if (JSON.parse(data.getTareasPropiasMobileResolver)) {
         ordenarDatos(
           JSON.parse(data.getTareasPropiasMobileResolver).tareasPropiasPorFecha,
@@ -460,11 +459,11 @@ const Calendario = () => {
       // },
     },
     {
-      title: "Vencimiento",
+      title: "Fecha Venc.",
       key: "fechaVto",
       dataIndex: "tar_vencimiento",
       showSorterTooltip: false,
-      width: 150,
+      width: 80,
       sorter: (a, b) => {
         a.tar_vencimiento.localeCompare(b.tar_vencimiento);
       },
@@ -472,6 +471,23 @@ const Calendario = () => {
         <div className="vencimiento-wrapper">
           <span style={{ marginRight: "5px" }}>
             {dataIndex ? moment(dataIndex).format("DD/MM/YYYY") : "-"}
+          </span>
+        </div>
+      ),
+    },
+    {
+      title: "Hora Venc.",
+      key: "horaVto",
+      dataIndex: "tar_horavencimiento",
+      showSorterTooltip: false,
+      width: 80,
+      sorter: (a, b) => {
+        a.tar_horavencimiento.localeCompare(b.tar_horavencimiento);
+      },
+      render: (dataIndex, item) => (
+        <div className="vencimiento-wrapper">
+          <span style={{ marginRight: "5px" }}>
+            {dataIndex ? moment(dataIndex, "LT").format("HH:mm") : "-"}
           </span>
         </div>
       ),
