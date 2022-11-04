@@ -463,7 +463,7 @@ const Calendario = () => {
       key: "fechaVto",
       dataIndex: "tar_vencimiento",
       showSorterTooltip: false,
-      width: 80,
+      width: 90,
       sorter: (a, b) => {
         a.tar_vencimiento.localeCompare(b.tar_vencimiento);
       },
