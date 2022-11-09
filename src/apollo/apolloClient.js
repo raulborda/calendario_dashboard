@@ -12,7 +12,7 @@ const apolloClient = new ApolloClient({
   link: new HttpLink({
     // uri: "http://beeapp.binamics.com.ar:4002",
     // uri: "http://localhost:4002/graphql",
-    // uri: URL,
+     //uri: URL,
     uri: "http://10.0.0.28:4002",
   }),
 });

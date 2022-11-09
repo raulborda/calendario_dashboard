@@ -11,6 +11,7 @@ import {
   Badge,
   Button,
   Calendar,
+  ConfigProvider,
   Image,
   Input,
   List,
@@ -22,35 +23,30 @@ import {
 } from "antd";
 import "./Calendario.css";
 import {
-  DownOutlined,
-  ClockCircleOutlined,
   UserOutlined,
-  InfoCircleOutlined,
-  EditOutlined,
   CheckOutlined,
   PaperClipOutlined,
   SearchOutlined,
-  EyeOutlined,
-  StarOutlined,
-  HeartOutlined,
 } from "@ant-design/icons";
-import NotaTarea from "../notaTarea/NotaTarea";
-import ArchivoTarea from "../archivoTarea/ArchivoTarea";
 import { UPDATE_ESTADO_TAREA } from "../../graphql/mutation/tareas";
 import OpenNotification from "../notificacion/OpenNotification";
 import { GET_CUMPLEANIOS_CALENDARIO } from "../../graphql/query/cumpleanios";
 import iconCumple from "../../birthday-cake.png";
+import locale from "antd/es/locale/es_ES";
+import 'moment/locale/es';
 
 const Calendario = () => {
   const [updateEstadoTareaIframeResolver] = useMutation(UPDATE_ESTADO_TAREA);
   const { userId } = useContext(GlobalContext);
-  console.log(userId)
+  console.log(userId);
   const { setTaskDrawerVisible } = useContext(GlobalContext);
   const [showDetailDrawer, setShowDetailDrawer] = useState({
     visible: false,
     type: "",
     idContent: null,
   });
+
+  //moment.locale("es");
 
   /*Estados de consulta */
   const [value, setValue] = useState(() => moment().format("DD/MM/YYYY"));
@@ -113,8 +109,6 @@ const Calendario = () => {
       setListaCumple(array);
     }
   }, [dataCumpleanito]);
-
-  
 
   const getListData = (value) => {
     let listData = [];
@@ -231,6 +225,7 @@ const Calendario = () => {
     setFiltroFecha(value.format("YYYY-MM-DD"));
     setFechaNacCalendar(value.format("DD-MM"));
   };
+
   const onPanelChange = (value) => {
     setValue(value.format("DD/MM/YYYY"));
     setFechaNacCalendar(value.format("DD-MM"));
@@ -323,40 +318,6 @@ const Calendario = () => {
         : "",
   });
 
-  // const columnsCumples = [
-  //   {
-  //     title: "Cumpleaños",
-  //     dataIndex: "",
-  //     key: "cumple",
-  //     render: (listaCumple) => {
-  //       return (
-  //         <div style={{ display: "flex", flexDirection: "row" }}>
-  //           <div style={{ marginRight: "10px" }}>
-  //             <Image
-  //               src={iconCumple}
-  //               preview={false}
-  //               width={20}
-  //               height={20}
-  //               style={{ marginTop: "-8px" }}
-  //             />
-  //           </div>
-  //           <div>
-  //             <p>{listaCumple.toUpperCase()}</p>
-  //           </div>
-  //         </div>
-  //       );
-  //     },
-  //     width: 10,
-  //   },
-  // ];
-
-  // const handleList = () => {
-  //   for (let index = 0; index < listaCumple.length; index++) {
-  //     let c = listaCumple[index];
-  //     console.log(c);
-  //   }
-  // };
-
   const columns = [
     {
       title: "...",
@@ -394,21 +355,21 @@ const Calendario = () => {
           </div>
         );
       },
-      width: 80,
+      width: 40,
     },
     {
       title: "Asunto",
       dataIndex: "tar_asunto",
       key: "tar_asunto",
       ellipsis: true,
-      width: 200,
+      width: 110,
       ...getColumnSearchProps("tar_asunto"),
     },
     {
       title: "Cliente",
       dataIndex: "cli_nombre",
       key: "cli_nombre",
-      width: 200,
+      width: 140,
       ...getColumnSearchProps("cli_nombre"),
       render: (dataIndex, item) => {
         return (
@@ -439,7 +400,7 @@ const Calendario = () => {
     {
       title: "Fuente",
       key: "fuente",
-      width: 90,
+      width: 60,
       dataIndex: "ori_id",
       render: (dataIndex, item) => (
         <Tag color={item.ori_color} key={"key"}>
@@ -450,7 +411,7 @@ const Calendario = () => {
     {
       title: "Creación",
       key: "fechaCreacion",
-      width: 100,
+      width: 70,
       dataIndex: "fechacreacion",
       sorter: (a, b) => a.tar_fecha.localeCompare(b.tar_fecha),
       showSorterTooltip: false,
@@ -459,7 +420,7 @@ const Calendario = () => {
       // },
     },
     {
-      title: "Fecha Venc.",
+      title: "Vencimiento",
       key: "fechaVto",
       dataIndex: "tar_vencimiento",
       showSorterTooltip: false,
@@ -476,11 +437,11 @@ const Calendario = () => {
       ),
     },
     {
-      title: "Hora Venc.",
+      title: "Hora",
       key: "horaVto",
       dataIndex: "tar_horavencimiento",
       showSorterTooltip: false,
-      width: 80,
+      width: 40,
       sorter: (a, b) => {
         a.tar_horavencimiento.localeCompare(b.tar_horavencimiento);
       },
@@ -495,7 +456,7 @@ const Calendario = () => {
     {
       title: "Módulo",
       key: "modori",
-      width: 90,
+      width: 50,
       dataIndex: "mod_id",
       render: (dataIndex, item) => {
         return (
@@ -512,7 +473,7 @@ const Calendario = () => {
     {
       title: "",
       key: "",
-      width: 90,
+      width: 30,
       render: (dataIndex, item) => (
         <div className="options-wrapper">
           <Popconfirm
@@ -533,73 +494,78 @@ const Calendario = () => {
 
   return (
     <>
-      <div className="div_wrapper">
-        <div>
-          <div className="titulo">Tareas</div>
-        </div>
-        <div className="calendar_lista">
-          <div className="calendar" style={{display:"flex", flexDirection:"column", justifyContent:"flex-start"}}>
-            <div className="popoverC">
-              <Popover
-                placement="bottomLeft"
-                title={"Cumpleaños"}
-                content={
-                  listaCumple &&
-                  listaCumple.map((c) => (
-                    <List.Item key={c}>{c.toUpperCase()}</List.Item>
-                  ))
-                }
-              >
-                <Button style={{ border: "none", boxShadow: "none" }}>
-                  <Image
-                    src={iconCumple}
-                    preview={false}
-                    width={20}
-                    height={20}
-                    style={{ marginTop: "-8px" }}
-                  />
-                </Button>
-              </Popover>
-            </div>
-            <Calendar
-              size="small"
-              dateCellRender={dateCellRender}
-              fullscreen={false}
-              onSelect={onSelect}
-              onPanelChange={onPanelChange}
-            />
+      <ConfigProvider locale={locale}>
+        <div className="div_wrapper">
+          <div>
+            <div className="titulo">Tareas</div>
           </div>
-          <div className="lista_tareas">
-            <QueryResult
-              loading={loading}
-              error={error}
-              data={tareas}
+          <div className="calendar_lista">
+            <div
+              className="calendar"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-start",
+              }}
             >
-              <Table
-                scroll={{
-                  y: 320,
-                }}
-                onRow={(record, rowIndex) => {
-                  return {
-                    onClick: (event) => {
-                      // alert(JSON.stringify(record));
-                      // console.log("click", record);
-                    }, // click row
-                    onDoubleClick: (event) => {}, // double click row
-                    onContextMenu: (event) => {}, // right button click row
-                    onMouseEnter: (event) => {}, // mouse enter row
-                    onMouseLeave: (event) => {}, // mouse leave row
-                  };
-                }}
-                columns={columns}
-                dataSource={tareas}
-                rowKey={"tar_id"}
+              <div className="popoverC">
+                <Popover
+                  placement="bottomLeft"
+                  title={"Cumpleaños"}
+                  content={
+                    listaCumple &&
+                    listaCumple.map((c) => (
+                      <List.Item key={c}>{c.toUpperCase()}</List.Item>
+                    ))
+                  }
+                >
+                  <Button style={{ border: "none", boxShadow: "none" }}>
+                    <Image
+                      src={iconCumple}
+                      preview={false}
+                      width={20}
+                      height={20}
+                      style={{ marginTop: "-8px" }}
+                    />
+                  </Button>
+                </Popover>
+              </div>
+              <Calendar
                 size="small"
+                dateCellRender={dateCellRender}
+                fullscreen={false}
+                onSelect={onSelect}
+                onPanelChange={onPanelChange}
               />
-            </QueryResult>
+            </div>
+            <div className="lista_tareas">
+              <QueryResult loading={loading} error={error} data={tareas}>
+                <Table
+                  scroll={{
+                    y: 320,
+                  }}
+                  onRow={(record, rowIndex) => {
+                    return {
+                      onClick: (event) => {
+                        // alert(JSON.stringify(record));
+                        // console.log("click", record);
+                      }, // click row
+                      onDoubleClick: (event) => {}, // double click row
+                      onContextMenu: (event) => {}, // right button click row
+                      onMouseEnter: (event) => {}, // mouse enter row
+                      onMouseLeave: (event) => {}, // mouse leave row
+                    };
+                  }}
+                  columns={columns}
+                  dataSource={tareas}
+                  rowKey={"tar_id"}
+                  size="small"
+                />
+              </QueryResult>
+            </div>
           </div>
         </div>
-      </div>
+      </ConfigProvider>
     </>
   );
 };

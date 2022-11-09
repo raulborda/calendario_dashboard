@@ -7,6 +7,8 @@ import esES from "antd/es/locale/es_ES";
 import Calendario from "./components/calendario/Calendario";
 import { useEffect, useState } from "react";
 import { GlobalContext } from "./context/GlobalContext";
+import moment from "moment";
+import locale from "antd/lib/date-picker/locale/es_ES";
 
 function App() {
   const [userId, setUserId] = useState();
@@ -28,9 +30,11 @@ function App() {
     content: null,
   });
 
+  moment.locale("es");
+
   return (
     <ApolloProvider client={apolloClient}>
-      <ConfigProvider locale={esES}>
+      <ConfigProvider locale={locale}>
         <GlobalContext.Provider
         value={{
           userId,
@@ -39,7 +43,7 @@ function App() {
           setTaskDrawerVisible
         }}
         >
-          <Calendario/>
+          <Calendario />
         </GlobalContext.Provider>
       </ConfigProvider>
     </ApolloProvider>
