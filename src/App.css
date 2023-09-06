@@ -3,23 +3,23 @@ body,
 #root {
   height: 100%;
   width: 100%;
-
 }
 
 ::-webkit-scrollbar {
-    width: 5px;
-    background: transparent;
-    height: 5px;
-    /* display: none; */
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #aaa;
-    border-radius: 8px;
-    -webkit-border-radius: 8px;
-  }
-  ::-webkit-scrollbar-corner {
-    background: transparent;
-  }
+  width: 5px;
+  background: transparent;
+  height: 5px;
+  /* display: none; */
+}
+::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  cursor: pointer;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
 
 * {
   margin: 0px;

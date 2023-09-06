@@ -89,6 +89,7 @@ body {
 
 .calendar {
   width: 40%;
+  min-width: 310px;
   max-width: 400px;
   display: flex;
   border-right: solid 1px #e8e8e8;
