@@ -48,11 +48,16 @@ body {
   justify-content: center;
   padding: 0px;
   margin: 0px;
+  width: 100%;
+  height: 100%;
 }
 
 .calendar_lista {
   display: flex;
   flex-direction: row;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .popoverC {
@@ -84,6 +89,7 @@ body {
 
 .calendar {
   width: 40%;
+  max-width: 400px;
   display: flex;
   border-right: solid 1px #e8e8e8;
 }
@@ -99,10 +105,10 @@ body {
 }
 
 .lista_tareas {
-  height: 372px;
-  width: 100%;
+  height: 401px;
+  flex: 1;
   margin-top: -2px;
-  /* overflow-y: scroll;   */
+  overflow-x: auto;  
 }
 
 .div_lista_calendario {

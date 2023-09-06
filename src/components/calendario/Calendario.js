@@ -352,7 +352,7 @@ const Calendario = () => {
           </div>
         );
       },
-      width: 40,
+      width: 55,
     },
     {
       title: "Asunto",
@@ -398,7 +398,7 @@ const Calendario = () => {
     {
       title: "Fuente",
       key: "fuente",
-      width: 60,
+      width: 90,
       dataIndex: "ori_id",
       render: (dataIndex, item) => (
         <Tag color={item.ori_color} key={"key"}>
@@ -409,7 +409,7 @@ const Calendario = () => {
     {
       title: "Creación",
       key: "fechaCreacion",
-      width: 60,
+      width: 90,
       dataIndex: "fechacreacion",
       sorter: (a, b) => a.tar_fecha.localeCompare(b.tar_fecha),
       showSorterTooltip: false,
@@ -422,7 +422,7 @@ const Calendario = () => {
       key: "fechaVto",
       dataIndex: "tar_vencimiento",
       showSorterTooltip: false,
-      width: 60,
+      width: 90,
       sorter: (a, b) => {
         a.tar_vencimiento.localeCompare(b.tar_vencimiento);
       },
@@ -439,7 +439,7 @@ const Calendario = () => {
       key: "horaVto",
       dataIndex: "tar_horavencimiento",
       showSorterTooltip: false,
-      width: 40,
+      width: 50,
       sorter: (a, b) => {
         a.tar_horavencimiento.localeCompare(b.tar_horavencimiento);
       },
@@ -454,7 +454,7 @@ const Calendario = () => {
     {
       title: "Módulo",
       key: "modori",
-      width: 50,
+      width: 70,
       dataIndex: "mod_id",
       render: (dataIndex, item) => {
         return (
@@ -471,7 +471,7 @@ const Calendario = () => {
     {
       title: "",
       key: "",
-      width: 30,
+      width: 40,
       render: (dataIndex, item) => (
         <div className="options-wrapper">
           <Popconfirm
@@ -519,12 +519,11 @@ const Calendario = () => {
                 >
                   <Button style={{ border: "none", boxShadow: "none" }}>
                     <Image
-                      src={"/assets/birthday-cake.png"}
+                      src={"./assets/birthday-cake.png"}
                       alt="image"
                       preview={false}
                       width={20}
                       height={20}
-                      style={{ marginTop: "-8px" }}
                     />
                   </Button>
                 </Popover>
@@ -540,9 +539,10 @@ const Calendario = () => {
             <div className="lista_tareas">
               <QueryResult loading={loading} error={error} data={tareas}>
                 <Table
-                  scroll={{
-                    y: 320,
-                  }}
+                  style={{ width: "100%", overflowX: "auto", minWidth: "850px" }}
+                  // scroll={{
+                  //   y: 320,
+                  // }}
                   onRow={(record, rowIndex) => {
                     return {
                       onClick: (event) => {
