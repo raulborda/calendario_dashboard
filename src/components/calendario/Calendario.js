@@ -31,14 +31,12 @@ import {
 import { UPDATE_ESTADO_TAREA } from "../../graphql/mutation/tareas";
 import OpenNotification from "../notificacion/OpenNotification";
 import { GET_CUMPLEANIOS_CALENDARIO } from "../../graphql/query/cumpleanios";
-import iconCumple from "../../birthday-cake.png";
 import locale from "antd/es/locale/es_ES";
-import 'moment/locale/es';
+import "moment/locale/es";
 
 const Calendario = () => {
   const [updateEstadoTareaIframeResolver] = useMutation(UPDATE_ESTADO_TAREA);
   const { userId } = useContext(GlobalContext);
-  console.log(userId);
   const { setTaskDrawerVisible } = useContext(GlobalContext);
   const [showDetailDrawer, setShowDetailDrawer] = useState({
     visible: false,
@@ -180,7 +178,6 @@ const Calendario = () => {
     setPollTareas({ inicial: startPolling, stop: stopPolling });
     if (data) {
       const tareas = JSON.parse(data.getTareasPropiasMobileResolver);
-      console.log(tareas);
       if (JSON.parse(data.getTareasPropiasMobileResolver)) {
         ordenarDatos(
           JSON.parse(data.getTareasPropiasMobileResolver).tareasPropiasPorFecha,
@@ -369,6 +366,7 @@ const Calendario = () => {
       title: "Cliente",
       dataIndex: "cli_nombre",
       key: "cli_nombre",
+      ellipsis: true,
       width: 140,
       ...getColumnSearchProps("cli_nombre"),
       render: (dataIndex, item) => {
@@ -411,7 +409,7 @@ const Calendario = () => {
     {
       title: "Creación",
       key: "fechaCreacion",
-      width: 70,
+      width: 60,
       dataIndex: "fechacreacion",
       sorter: (a, b) => a.tar_fecha.localeCompare(b.tar_fecha),
       showSorterTooltip: false,
@@ -424,7 +422,7 @@ const Calendario = () => {
       key: "fechaVto",
       dataIndex: "tar_vencimiento",
       showSorterTooltip: false,
-      width: 90,
+      width: 60,
       sorter: (a, b) => {
         a.tar_vencimiento.localeCompare(b.tar_vencimiento);
       },
@@ -521,7 +519,8 @@ const Calendario = () => {
                 >
                   <Button style={{ border: "none", boxShadow: "none" }}>
                     <Image
-                      src={iconCumple}
+                      src={"/assets/birthday-cake.png"}
+                      alt="image"
                       preview={false}
                       width={20}
                       height={20}
@@ -548,7 +547,6 @@ const Calendario = () => {
                     return {
                       onClick: (event) => {
                         // alert(JSON.stringify(record));
-                        // console.log("click", record);
                       }, // click row
                       onDoubleClick: (event) => {}, // double click row
                       onContextMenu: (event) => {}, // right button click row

@@ -21,7 +21,6 @@ function App() {
       const params = urlSearch.split("=");
       const idUserFromParams = params[1];
       setUserId(Number(idUserFromParams));
-      console.log("Usuario ->", idUserFromParams);
     }
   }, []);
 
@@ -36,12 +35,12 @@ function App() {
     <ApolloProvider client={apolloClient}>
       <ConfigProvider locale={locale}>
         <GlobalContext.Provider
-        value={{
-          userId,
-          setUserId,
-          taskDrawerVisible, 
-          setTaskDrawerVisible
-        }}
+          value={{
+            userId,
+            setUserId,
+            taskDrawerVisible,
+            setTaskDrawerVisible,
+          }}
         >
           <Calendario />
         </GlobalContext.Provider>
