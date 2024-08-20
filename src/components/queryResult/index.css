@@ -1,0 +1,5 @@
+.center-wrapper {
+    justify-content: center;
+    display: flex;
+    margin-top: 150px;
+}

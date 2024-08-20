@@ -3,6 +3,7 @@
 import React, { useContext } from "react";
 import moment from "moment";
 import { useEffect, useState } from "react";
+import { CloseOutlined } from "@ant-design/icons";
 import { GET_TAREAS_CALENDARIO } from "../../graphql/query/tareas";
 import QueryResult from "../../queryResult/QueryResult";
 import { useMutation, useQuery } from "@apollo/client";
@@ -20,6 +21,7 @@ import {
   Space,
   Table,
   Tag,
+  Drawer
 } from "antd";
 import "./Calendario.css";
 import {
@@ -33,11 +35,12 @@ import OpenNotification from "../notificacion/OpenNotification";
 import { GET_CUMPLEANIOS_CALENDARIO } from "../../graphql/query/cumpleanios";
 import locale from "antd/es/locale/es_ES";
 import "moment/locale/es";
+import DetailDrawer from "../detailDrawer/DetailDrawer";
 
 const Calendario = () => {
+  const URL = process.env.REACT_APP_URL;
   const [updateEstadoTareaIframeResolver] = useMutation(UPDATE_ESTADO_TAREA);
-  const { userId } = useContext(GlobalContext);
-  const { setTaskDrawerVisible } = useContext(GlobalContext);
+  const { userId, setTaskDrawerVisible } = useContext(GlobalContext);
   const [showDetailDrawer, setShowDetailDrawer] = useState({
     visible: false,
     type: "",
@@ -62,6 +65,9 @@ const Calendario = () => {
   const [listaCumple, setListaCumple] = useState([]);
 
   const [tasksDates, setTasksDates] = useState([]);
+
+  const [selectedClient, setSelectedClient] = useState();
+  const [clientDrawerVisible, setClientDrawerVisible] = useState(false);
 
   const { data, loading, error, startPolling, stopPolling } = useQuery(
     GET_TAREAS_CALENDARIO,
@@ -111,14 +117,17 @@ const Calendario = () => {
   const getListData = (value) => {
     let listData = [];
 
-    const existeTarea = tasksDates.filter((item) => {
+    const existeTarea = tasksDates?.filter((item) => {
       return item.tar_vencimiento === moment(value).format("YYYY-MM-DD");
     });
 
     if (existeTarea.length > 0) {
+      //console.log('existeTarea', existeTarea)
       listData = [
         {
           type: "1",
+          tar_vencimiento: existeTarea[0].tar_vencimiento,
+          count: existeTarea.length
         },
       ];
     } else {
@@ -131,27 +140,26 @@ const Calendario = () => {
 
     return listData;
   };
-
   const dateCellRender = (value) => {
+
     const listData = getListData(value);
 
     return (
       <>
         <span>
-          {listData.map((item, idx) => {
-            return (
-              <Badge
-                key={idx}
-                size="small"
-                dot={true}
-                color={item.type === "1" ? "green" : "white"}
-              />
-            );
-          })}
+          {listData.map((item, idx) => (
+            <Badge
+              //size = 'small'
+              count={item.count}
+              key={idx}
+              color={item.count > 0 ? "green" : 'transparent'}
+            />
+          ))}
         </span>
       </>
     );
   };
+  
 
   const ordenarDatos = (tareasBasico, filtroFecha) => {
     let fecha = moment(filtroFecha, "YYYY-MM-DD").format("DD/MM/YYYY");
@@ -186,7 +194,8 @@ const Calendario = () => {
         setTareasCalendario(
           JSON.parse(data.getTareasPropiasMobileResolver).fechasVenc
         );
-        setTasksDates(tareas.fechasVenc);
+        setTasksDates(tareas.AllFechasVencTareas);
+        //console.log('tareas.fechasVenc', tareas.fechasVenc)
       }
     }
   }, [data, filtroFecha, userId]);
@@ -304,14 +313,14 @@ const Calendario = () => {
       </div>
     ),
     filterIcon: (filtered) => (
-      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+      <SearchOutlined style={{ color: filtered ? "#56b43c" : undefined }} />
     ),
     onFilter: (value, record) =>
       record[dataIndex]
         ? record[dataIndex]
-            .toString()
-            .toLowerCase()
-            .includes(value.toLowerCase())
+          .toString()
+          .toLowerCase()
+          .includes(value.toLowerCase())
         : "",
   });
 
@@ -319,6 +328,7 @@ const Calendario = () => {
     {
       title: "...",
       dataIndex: "",
+      align: "center",
       key: "prioridad",
       render: (dataIndex, item) => {
         let tagColor = "";
@@ -352,14 +362,14 @@ const Calendario = () => {
           </div>
         );
       },
-      width: 55,
+      width: 45,
     },
     {
       title: "Asunto",
       dataIndex: "tar_asunto",
       key: "tar_asunto",
       ellipsis: true,
-      width: 110,
+      width: 175,
       ...getColumnSearchProps("tar_asunto"),
     },
     {
@@ -367,41 +377,35 @@ const Calendario = () => {
       dataIndex: "cli_nombre",
       key: "cli_nombre",
       ellipsis: true,
-      width: 140,
+      width: 90,
       ...getColumnSearchProps("cli_nombre"),
-      render: (dataIndex, item) => {
-        return (
-          <span>
-            {dataIndex}
-            <span>
-              {" "}
-              {item.con_nombre && (
-                <Popover
-                  title={item.con_nombre}
-                  trigger={"hover"}
-                  placement="top"
-                  content={
-                    <div className="infocontacto-wrapper">
-                      <span>{item.con_telefono1}</span>
-                      <span>{item.con_email1}</span>
-                    </div>
-                  }
-                >
-                  <UserOutlined />
-                </Popover>
-              )}
-            </span>
-          </span>
-        );
-      },
+      render: (text, record) => (
+        <div
+          style={{
+            color: "#00b33c",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            cursor: "pointer",
+          }}
+          onClick={() => { localStorage.setItem("cliSelect", record?.cli_id);
+            ;setSelectedClient(record); setClientDrawerVisible(true) }}
+        >
+          {text}
+        </div>
+      ),
     },
     {
       title: "Fuente",
       key: "fuente",
-      width: 90,
+      width: 80,
       dataIndex: "ori_id",
       render: (dataIndex, item) => (
-        <Tag color={item.ori_color} key={"key"}>
+        <Tag
+          //onClick={() => handleDetail(item)}
+          //style={{ cursor: item.ori_desc === 'NEGOCIO' ? "pointer" : "defualt" }}
+          color={item.ori_color}
+          key={"key"}>
           {item.ori_desc}
         </Tag>
       ),
@@ -409,7 +413,7 @@ const Calendario = () => {
     {
       title: "Creación",
       key: "fechaCreacion",
-      width: 90,
+      width: 75,
       dataIndex: "fechacreacion",
       sorter: (a, b) => a.tar_fecha.localeCompare(b.tar_fecha),
       showSorterTooltip: false,
@@ -422,7 +426,7 @@ const Calendario = () => {
       key: "fechaVto",
       dataIndex: "tar_vencimiento",
       showSorterTooltip: false,
-      width: 90,
+      width: 75,
       sorter: (a, b) => {
         a.tar_vencimiento.localeCompare(b.tar_vencimiento);
       },
@@ -439,7 +443,7 @@ const Calendario = () => {
       key: "horaVto",
       dataIndex: "tar_horavencimiento",
       showSorterTooltip: false,
-      width: 50,
+      width: 45,
       sorter: (a, b) => {
         a.tar_horavencimiento.localeCompare(b.tar_horavencimiento);
       },
@@ -471,7 +475,8 @@ const Calendario = () => {
     {
       title: "",
       key: "",
-      width: 40,
+      width: 30,
+      align: "center",
       render: (dataIndex, item) => (
         <div className="options-wrapper">
           <Popconfirm
@@ -482,13 +487,18 @@ const Calendario = () => {
             onConfirm={() => confirm(item)}
           >
             <CheckOutlined
-              style={{ fontSize: "12px", color: "green", marginLeft: "50%" }}
+              style={{ fontSize: "12px", color: "green" }}
             />
           </Popconfirm>
         </div>
       ),
     },
   ];
+
+  const onCloseDrawerCli = () => {
+    //setActualizarData(!actualizarData)
+    setClientDrawerVisible(false);
+  };
 
   return (
     <>
@@ -506,7 +516,7 @@ const Calendario = () => {
                 justifyContent: "flex-start",
               }}
             >
-              <div className="popoverC">
+              <div className="popoverC" style={{ display: clientDrawerVisible ? 'none' : 'block' }}>
                 <Popover
                   placement="bottomLeft"
                   title={"Cumpleaños"}
@@ -548,10 +558,10 @@ const Calendario = () => {
                       onClick: (event) => {
                         // alert(JSON.stringify(record));
                       }, // click row
-                      onDoubleClick: (event) => {}, // double click row
-                      onContextMenu: (event) => {}, // right button click row
-                      onMouseEnter: (event) => {}, // mouse enter row
-                      onMouseLeave: (event) => {}, // mouse leave row
+                      onDoubleClick: (event) => { }, // double click row
+                      onContextMenu: (event) => { }, // right button click row
+                      onMouseEnter: (event) => { }, // mouse enter row
+                      onMouseLeave: (event) => { }, // mouse leave row
                     };
                   }}
                   columns={columns}
@@ -563,6 +573,37 @@ const Calendario = () => {
             </div>
           </div>
         </div>
+
+
+        {selectedClient && selectedClient.cuenta !== "" && (
+          <Drawer
+            className="drawerCli"
+            open={clientDrawerVisible}
+            onClose={onCloseDrawerCli}
+            placement="bottom"
+            height={"100%"}
+            style={{ whiteSpace: "nowrap" }}
+            closeIcon={
+              <CloseOutlined
+                style={{ position: "absolute", top: "8px", right: "8px" }}
+              />
+            }
+            bodyStyle={{ padding: "10px" }}
+          >
+            <iframe
+              loading="lazy"
+              src={`${URL}vista_cliente/?idC=${selectedClient?.cli_id}`}
+              width={"100%"}
+              style={{ border: "none", height: "calc(100% - 10px)" }}
+              title="drawer"
+            ></iframe>
+          </Drawer>
+        )}
+
+        <DetailDrawer
+          showDetailDrawer={showDetailDrawer}
+          closeDrawer={setShowDetailDrawer}
+        />
       </ConfigProvider>
     </>
   );

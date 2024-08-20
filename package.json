@@ -6,11 +6,13 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@apollo/client": "^3.7.0",
-    "antd": "^4.24.1",
+    "antd": "^4.21.3",
     "apollo-client": "^2.6.10",
     "moment": "^2.29.4",
+    "quill-magic-url": "^4.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-quilljs": "^2.0.4",
     "react-scripts": "5.0.1"
   },
   "scripts": {

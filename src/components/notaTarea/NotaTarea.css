@@ -63,4 +63,32 @@
     align-items: center;
   }
   
+  .note-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    width: 100%;
+    background: #fffcdc;
+    border-radius: 4px;
+    min-height: 6rem;
+    border: 1px solid #e3e0e0;
+  }
   
+  .note-wrapper-interno {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    width: calc(100% - 10px);
+    margin-left: 10px;
+    background: #fffcdc;
+    border-radius: 4px;
+    min-height: 6rem;
+    border: 1px solid #e3e0e0;
+  }
+  
+  .nota-tarea-linea-superior {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 5px;
+  }

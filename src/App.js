@@ -13,6 +13,11 @@ import locale from "antd/lib/date-picker/locale/es_ES";
 function App() {
   const [userId, setUserId] = useState();
 
+  const [queryPollDealContent, setQueryPollDealContent] = useState();
+
+  //* handle del contenido del componente nota para utilizar en formulario
+  const [noteContent, setNoteContent] = useState("");
+
   useEffect(() => {
     const url = window.location;
     const urlSearch = url.search;
@@ -31,6 +36,8 @@ function App() {
 
   moment.locale("es");
 
+  console.log('version modulo-calendario-dashboard: 20.08.24');
+
   return (
     <ApolloProvider client={apolloClient}>
       <ConfigProvider locale={locale}>
@@ -40,6 +47,10 @@ function App() {
             setUserId,
             taskDrawerVisible,
             setTaskDrawerVisible,
+            queryPollDealContent, 
+            setQueryPollDealContent,
+            noteContent,
+            setNoteContent,
           }}
         >
           <Calendario />
