@@ -13,7 +13,7 @@ const QueryResult = ({ loading, error, data, children }) => {
       </div>
     );
   }
-  if (!data || data.length === 0) {
+  if (!data || data?.length === 0) {
     return (
       <div className="center-wrapper">
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />

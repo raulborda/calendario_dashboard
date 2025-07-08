@@ -31,7 +31,7 @@ const TaskItem = ({ taskData, item }) => {
 
   return (
     currentTask &&
-    currentTask.length > 0 && (
+    currentTask?.length > 0 && (
       <Timeline.Item color="green" dot={<CalendarOutlined />} key={item.tar_id}>
         <div className="task_wrapper">
           <div className="task_header">

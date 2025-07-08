@@ -75,6 +75,7 @@ const Calendario = () => {
       variables: {
         idUsuario: userId,
       },
+      skip: !userId, // se salta la query si userId no tiene valor
     }
   );
 
@@ -93,7 +94,7 @@ const Calendario = () => {
   useEffect(() => {
     if (dataCumpleanito) {
       const cumpleanio = JSON.parse(dataCumpleanito.getCumpleaniosResolver);
-      for (let index = 0; index < cumpleanio.length; index++) {
+      for (let index = 0; index < cumpleanio?.length; index++) {
         let nombre = cumpleanio[index].con_nombre;
         const edad = cumpleanio[index].edad;
         let empresa = cumpleanio[index].cli_nombre;
@@ -121,13 +122,13 @@ const Calendario = () => {
       return item.tar_vencimiento === moment(value).format("YYYY-MM-DD");
     });
 
-    if (existeTarea.length > 0) {
+    if (existeTarea?.length > 0) {
       //console.log('existeTarea', existeTarea)
       listData = [
         {
           type: "1",
-          tar_vencimiento: existeTarea[0].tar_vencimiento,
-          count: existeTarea.length
+          tar_vencimiento: existeTarea[0]?.tar_vencimiento,
+          count: existeTarea?.length
         },
       ];
     } else {
@@ -186,13 +187,13 @@ const Calendario = () => {
     setPollTareas({ inicial: startPolling, stop: stopPolling });
     if (data) {
       const tareas = JSON.parse(data.getTareasPropiasMobileResolver);
-      if (JSON.parse(data.getTareasPropiasMobileResolver)) {
+      if (tareas) {
         ordenarDatos(
-          JSON.parse(data.getTareasPropiasMobileResolver).tareasPropiasPorFecha,
+          tareas.tareasPropiasPorFecha,
           filtroFecha
         );
         setTareasCalendario(
-          JSON.parse(data.getTareasPropiasMobileResolver).fechasVenc
+          tareas.fechasVenc
         );
         setTasksDates(tareas.AllFechasVencTareas);
         //console.log('tareas.fechasVenc', tareas.fechasVenc)

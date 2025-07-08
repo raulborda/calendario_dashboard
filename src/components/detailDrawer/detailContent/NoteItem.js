@@ -40,7 +40,7 @@ const NoteItem = ({ noteData, item }) => {
     <>
       {!noteData ? (
         <>
-          {currentTask && currentTask.length > 0 && (
+          {currentTask && currentTask?.length > 0 && (
             <Badge.Ribbon
               text={currentTask && currentTask[0].pri_desc}
               color={returnPriorityColor(currentTask[0].pri_desc)}
@@ -64,7 +64,7 @@ const NoteItem = ({ noteData, item }) => {
         </>
       ) : (
         <Timeline.Item color="green" dot={<CopyOutlined />}>
-          {currentTask && currentTask.length > 0 && (
+          {currentTask && currentTask?.length > 0 && (
             <Badge.Ribbon
               text={currentTask && currentTask[0].pri_desc}
               color={returnPriorityColor(currentTask[0].pri_desc)}
