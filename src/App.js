@@ -36,7 +36,7 @@ function App() {
 
   moment.locale("es");
 
-  console.log('version modulo-calendario-dashboard: 20.08.24');
+  console.log('version modulo-calendario-dashboard: 20.08.24'); 
 
   return (
     <ApolloProvider client={apolloClient}>
